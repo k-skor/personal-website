@@ -11,10 +11,7 @@ import com.varabyte.kobweb.silk.components.layout.HorizontalDividerStyle
 import com.varabyte.kobweb.silk.init.InitSilk
 import com.varabyte.kobweb.silk.init.InitSilkContext
 import com.varabyte.kobweb.silk.init.registerStyleBase
-import com.varabyte.kobweb.silk.style.CssStyle
-import com.varabyte.kobweb.silk.style.addVariant
-import com.varabyte.kobweb.silk.style.addVariantBase
-import com.varabyte.kobweb.silk.style.base
+import com.varabyte.kobweb.silk.style.*
 import com.varabyte.kobweb.silk.style.selectors.active
 import com.varabyte.kobweb.silk.style.selectors.hover
 import com.varabyte.kobweb.silk.theme.colors.palette.color
@@ -34,19 +31,32 @@ fun initSiteStyles(ctx: InitSilkContext) {
     }
 
     ctx.stylesheet.registerStyleBase("body") {
-        Modifier
-            .fontFamily(
-                "Roboto", "Segoe UI", "Oxygen", "Ubuntu", "-apple-system", "BlinkMacSystemFont",
-                "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "sans-serif"
-            )
-            .fontSize(18.px)
-            .lineHeight(1.5)
+        //Modifier
+        //    .fontFamily(
+        //        "Space Grotesk", "Roboto", "Segoe UI", "Oxygen", "Ubuntu", "-apple-system", "BlinkMacSystemFont",
+        //        "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "sans-serif"
+        //    )
+        //    .fontWeight(400)
+        //    .fontSize(18.px)
+        //    .lineHeight(1.5)
+        regularTextModifier
     }
 
     // Silk dividers only extend 90% by default; we want full width dividers in our site
     ctx.theme.modifyStyleBase(HorizontalDividerStyle) {
         Modifier.fillMaxWidth()
     }
+}
+
+val regularTextModifier =
+    Modifier
+        .fontFamily("Space Grotesk")
+        .fontWeight(400)
+        .fontSize(18.px)
+        .lineHeight(1.5)
+
+val RegularTextStyle = CssStyle.base {
+    regularTextModifier
 }
 
 val HeadlineTextStyle = CssStyle.base {
@@ -68,17 +78,19 @@ val CircleButtonVariant = ButtonStyle.addVariantBase {
 }
 
 val UncoloredButtonVariant = ButtonStyle.addVariantBase {
-    Modifier.setVariable(ButtonVars.BackgroundDefaultColor, Colors.Transparent)
+    //Modifier.setVariable(ButtonVars.BackgroundDefaultColor, Colors.Transparent)
+    Modifier.background(Colors.Transparent)
 }
 
 val PrimaryButtonVariant = ButtonStyle.addVariant {
+    val palette = colorMode.toColorPalette()
     base {
-        Modifier.borderRadius(16.px)
+        Modifier.borderRadius(4.px).background(palette.backgroundPrimary).color(palette.tint)
     }
     hover {
-        Modifier.background(colorMode.toColorPalette().brand.accent)
+        Modifier.background(palette.backgroundDim)
     }
     active {
-        Modifier.background(colorMode.toColorPalette().brand.primary)
+        Modifier.background(palette.backgroundDim)
     }
 }

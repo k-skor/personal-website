@@ -3,6 +3,7 @@ package pl.krzyssko.portfoliowebsite.components.sections
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.browser.dom.ElementTarget
 import com.varabyte.kobweb.compose.css.functions.clamp
+import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.foundation.layout.Spacer
@@ -10,56 +11,82 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
-import com.varabyte.kobweb.silk.components.graphics.Image
-import com.varabyte.kobweb.silk.components.icons.CloseIcon
-import com.varabyte.kobweb.silk.components.icons.HamburgerIcon
-import com.varabyte.kobweb.silk.components.icons.MoonIcon
-import com.varabyte.kobweb.silk.components.icons.SunIcon
-import com.varabyte.kobweb.silk.components.layout.Surface
+import com.varabyte.kobweb.navigation.OpenLinkStrategy
+import com.varabyte.kobweb.silk.components.forms.Button
+import com.varabyte.kobweb.silk.components.icons.*
 import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.navigation.UncoloredLinkVariant
 import com.varabyte.kobweb.silk.components.navigation.UndecoratedLinkVariant
-import com.varabyte.kobweb.silk.components.overlay.Overlay
-import com.varabyte.kobweb.silk.components.overlay.OverlayVars
-import com.varabyte.kobweb.silk.components.overlay.PopupPlacement
-import com.varabyte.kobweb.silk.components.overlay.Tooltip
+import com.varabyte.kobweb.silk.components.overlay.*
+import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.style.CssStyle
 import com.varabyte.kobweb.silk.style.animation.Keyframes
 import com.varabyte.kobweb.silk.style.animation.toAnimation
 import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.style.breakpoint.displayIfAtLeast
 import com.varabyte.kobweb.silk.style.breakpoint.displayUntil
+import com.varabyte.kobweb.silk.style.extendedByBase
 import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
+import com.varabyte.kobweb.silk.theme.colors.palette.color
+import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import org.jetbrains.compose.web.css.*
-import pl.krzyssko.portfoliowebsite.components.widgets.DownloadCvButton
+import org.jetbrains.compose.web.dom.Text
 import pl.krzyssko.portfoliowebsite.components.widgets.IconButton
-import pl.krzyssko.portfoliowebsite.style.Style
-import pl.krzyssko.portfoliowebsite.style.toColorPalette
+import pl.krzyssko.portfoliowebsite.style.*
 
 val NavHeaderStyle = CssStyle {
-    base { Modifier.fillMaxWidth().padding(1.cssRem) }
-    Breakpoint.MD { Modifier.fillMaxWidth(Style.Dimens.MAX_PAGE_WIDTH.px) }
+    base { Modifier.fillMaxWidth().padding(leftRight = 5.cssRem, topBottom = 2.cssRem).background(colorMode.toColorPalette().backgroundSecondary).color(colorMode.toColorPalette().tint) }
+    //Breakpoint.MD { Modifier.fillMaxWidth(Style.Dimens.MAX_PAGE_WIDTH.px) }
+}
+
+val ButtonLinkStyle = UncoloredLinkVariant.extendedByBase {
+    Modifier.color(colorMode.toColorPalette().tint)
 }
 
 @Composable
-private fun NavLink(path: String, text: String) {
-    Link(path, text, variant = UndecoratedLinkVariant.then(UncoloredLinkVariant))
+private fun NavLink(path: String, text: String, modifier: Modifier = Modifier) {
+    Link(path, text, modifier, variant = UndecoratedLinkVariant.then(UncoloredLinkVariant))
 }
 
 @Composable
 private fun MenuItems() {
-    NavLink("/about", "About")
-    NavLink("/contact", "Contact")
+    NavLink("/about", "portfolio")
+    NavLink("/contact", "contact")
 }
 
 @Composable
 private fun ColorModeButton() {
     var colorMode by ColorMode.currentState
-    IconButton(onClick = { colorMode = colorMode.opposite }) {
-        if (colorMode.isLight) MoonIcon() else SunIcon()
+    Button(onClick = { colorMode = colorMode.opposite }, variant = UncoloredButtonVariant, modifier = RegularTextStyle.toModifier()) {
+        if (colorMode.isLight) {
+            SpanText("{ darkmode }")
+        } else {
+            SpanText("{ lightmode }")
+        }
     }
-    Tooltip(ElementTarget.PreviousSibling, "Toggle color mode", placement = PopupPlacement.BottomRight)
+    Tooltip(
+        ElementTarget.PreviousSibling,
+        "Toggle color mode",
+        modifier = Modifier.padding(leftRight = 4.px).fontSize(14.px)
+            .background(Colors.Black.toRgb().copyf(alpha = 0.6f)),
+        placement = PopupPlacement.BottomRight,
+        showDelayMs = 500,
+        hideDelayMs = 500,
+        keepOpenStrategy = KeepPopupOpenStrategy.onHover()
+    )
+}
+
+@Composable
+private fun DownloadCvButton(colorMode: ColorMode) {
+    Button(onClick = { }, variant = PrimaryButtonVariant, modifier = RegularTextStyle.toModifier().color(colorMode.toColorPalette().tint)) {
+        Link("Krzysztof_Skórcz_-CV.pdf", openInternalLinksStrategy = OpenLinkStrategy.IN_NEW_TAB, variant = ButtonLinkStyle.then(
+            UndecoratedLinkVariant
+        )) {
+            DownloadIcon(Modifier.color(colorMode.toColorPalette().tint))
+            SpanText("download CV", Modifier.padding(left = 0.5.em).color(colorMode.toColorPalette().tint))
+        }
+    }
 }
 
 @Composable
@@ -101,62 +128,17 @@ enum class SideMenuState {
 }
 
 @Composable
-fun NavHeaderOri() {
-    Row(NavHeaderStyle.toModifier(), verticalAlignment = Alignment.CenterVertically) {
-        Link("https://kobweb.varabyte.com") {
-            // Block display overrides inline display of the <img> tag, so it calculates centering better
-            Image("/kobweb-logo.png", "Kobweb Logo", Modifier.height(2.cssRem).display(DisplayStyle.Block))
-        }
-
-        Spacer()
-
-        Row(Modifier.gap(1.5.cssRem).displayIfAtLeast(Breakpoint.MD), verticalAlignment = Alignment.CenterVertically) {
-            MenuItems()
-            ColorModeButton()
-        }
-
-        Row(
-            Modifier
-                .fontSize(1.5.cssRem)
-                .gap(1.cssRem)
-                .displayUntil(Breakpoint.MD),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            var menuState by remember { mutableStateOf(SideMenuState.CLOSED) }
-
-            ColorModeButton()
-            HamburgerButton(onClick =  { menuState = SideMenuState.OPEN })
-
-            if (menuState != SideMenuState.CLOSED) {
-                SideMenu(
-                    menuState,
-                    close = { menuState = menuState.close() },
-                    onAnimationEnd = { if (menuState == SideMenuState.CLOSING) menuState = SideMenuState.CLOSED }
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun NavHeader(colorMode: ColorMode) {
+fun NavHeader(modifier: Modifier = Modifier, colorMode: ColorMode) {
     val palette = colorMode.toColorPalette()
-    Row(NavHeaderStyle.toModifier(), verticalAlignment = Alignment.CenterVertically) {
-        NavLink("/", "KS LOGO")
+    Row(NavHeaderStyle.toModifier().then(modifier), verticalAlignment = Alignment.CenterVertically) {
+        NavLink("/", "</ krzysztof skórcz >", Modifier.fontWeight(400).color(palette.backgroundPrimary))
 
         Spacer()
 
-        Row(Modifier.gap(1.5.cssRem).displayIfAtLeast(Breakpoint.MD), verticalAlignment = Alignment.CenterVertically) {
-            MenuItems()
-            Surface(
-                modifier = Modifier
-                    .height(24.px)
-                    .width(2.px)
-                    .background(palette.brand.accent)
-                    .align(Alignment.CenterVertically)
-            ) {}
+        Row(Modifier.gap(40.px).displayIfAtLeast(Breakpoint.MD), verticalAlignment = Alignment.CenterVertically) {
             ColorModeButton()
-            DownloadCvButton()
+            MenuItems()
+            DownloadCvButton(ColorMode.DARK)
         }
 
         Row(
@@ -199,7 +181,7 @@ private fun SideMenu(menuState: SideMenuState, close: () -> Unit, onAnimationEnd
                     // things without moving their finger / cursor much.
                     .padding(top = 1.cssRem, leftRight = 1.cssRem)
                     .gap(1.5.cssRem)
-                    .backgroundColor(ColorMode.current.toColorPalette().nearBackground)
+                    .backgroundColor(ColorMode.current.toColorPalette().backgroundDim)
                     .animation(
                         SideMenuSlideInAnim.toAnimation(
                             duration = 200.ms,
@@ -216,7 +198,7 @@ private fun SideMenu(menuState: SideMenuState, close: () -> Unit, onAnimationEnd
                 CloseButton(onClick = { close() })
                 Column(Modifier.padding(right = 0.75.cssRem).gap(1.5.cssRem).fontSize(1.4.cssRem), horizontalAlignment = Alignment.End) {
                     MenuItems()
-                    DownloadCvButton()
+                    DownloadCvButton(ColorMode.DARK)
                 }
             }
         }
