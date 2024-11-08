@@ -3,7 +3,6 @@ package pl.krzyssko.portfoliowebsite.components.sections
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.browser.dom.ElementTarget
 import com.varabyte.kobweb.compose.css.functions.clamp
-import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
 import com.varabyte.kobweb.compose.foundation.layout.Spacer
@@ -13,7 +12,9 @@ import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.navigation.OpenLinkStrategy
 import com.varabyte.kobweb.silk.components.forms.Button
-import com.varabyte.kobweb.silk.components.icons.*
+import com.varabyte.kobweb.silk.components.icons.CloseIcon
+import com.varabyte.kobweb.silk.components.icons.DownloadIcon
+import com.varabyte.kobweb.silk.components.icons.HamburgerIcon
 import com.varabyte.kobweb.silk.components.navigation.Link
 import com.varabyte.kobweb.silk.components.navigation.UncoloredLinkVariant
 import com.varabyte.kobweb.silk.components.navigation.UndecoratedLinkVariant
@@ -28,16 +29,15 @@ import com.varabyte.kobweb.silk.style.breakpoint.displayUntil
 import com.varabyte.kobweb.silk.style.extendedByBase
 import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
-import com.varabyte.kobweb.silk.theme.colors.palette.color
-import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.dom.Text
 import pl.krzyssko.portfoliowebsite.components.widgets.IconButton
-import pl.krzyssko.portfoliowebsite.style.*
+import pl.krzyssko.portfoliowebsite.style.PrimaryButtonVariant
+import pl.krzyssko.portfoliowebsite.style.RegularTextStyle
+import pl.krzyssko.portfoliowebsite.style.UncoloredButtonVariant
+import pl.krzyssko.portfoliowebsite.style.toColorPalette
 
 val NavHeaderStyle = CssStyle {
     base { Modifier.fillMaxWidth().padding(leftRight = 5.cssRem, topBottom = 2.cssRem).background(colorMode.toColorPalette().backgroundSecondary).color(colorMode.toColorPalette().tint) }
-    //Breakpoint.MD { Modifier.fillMaxWidth(Style.Dimens.MAX_PAGE_WIDTH.px) }
 }
 
 val ButtonLinkStyle = UncoloredLinkVariant.extendedByBase {
@@ -50,9 +50,9 @@ private fun NavLink(path: String, text: String, modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun MenuItems() {
-    NavLink("/about", "portfolio")
-    NavLink("/contact", "contact")
+private fun MenuItems(modifier: Modifier = Modifier) {
+    NavLink("#portfolio", "portfolio", modifier)
+    NavLink("#contact", "contact", modifier)
 }
 
 @Composable
@@ -69,7 +69,7 @@ private fun ColorModeButton() {
         ElementTarget.PreviousSibling,
         "Toggle color mode",
         modifier = Modifier.padding(leftRight = 4.px).fontSize(14.px)
-            .background(Colors.Black.toRgb().copyf(alpha = 0.6f)),
+            .background((if (colorMode.isLight) Colors.Black else Colors.White).toRgb().copyf(alpha = 0.6f)),
         placement = PopupPlacement.BottomRight,
         showDelayMs = 500,
         hideDelayMs = 500,
@@ -97,9 +97,9 @@ private fun HamburgerButton(onClick: () -> Unit) {
 }
 
 @Composable
-private fun CloseButton(onClick: () -> Unit) {
+private fun CloseButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     IconButton(onClick) {
-        CloseIcon()
+        CloseIcon(modifier)
     }
 }
 
@@ -175,7 +175,7 @@ private fun SideMenu(menuState: SideMenuState, close: () -> Unit, onAnimationEnd
             Column(
                 Modifier
                     .fillMaxHeight()
-                    .width(clamp(8.cssRem, 33.percent, 10.cssRem))
+                    .width(clamp(10.percent, 16.cssRem, 60.percent))
                     .align(Alignment.CenterEnd)
                     // Close button will appear roughly over the hamburger button, so the user can close
                     // things without moving their finger / cursor much.
@@ -195,9 +195,9 @@ private fun SideMenu(menuState: SideMenuState, close: () -> Unit, onAnimationEnd
                     .onAnimationEnd { onAnimationEnd() },
                 horizontalAlignment = Alignment.End
             ) {
-                CloseButton(onClick = { close() })
+                CloseButton(Modifier.color(ColorMode.DARK.toColorPalette().tint), onClick = { close() })
                 Column(Modifier.padding(right = 0.75.cssRem).gap(1.5.cssRem).fontSize(1.4.cssRem), horizontalAlignment = Alignment.End) {
-                    MenuItems()
+                    MenuItems(Modifier.color(ColorMode.DARK.toColorPalette().tint))
                     DownloadCvButton(ColorMode.DARK)
                 }
             }

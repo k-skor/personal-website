@@ -17,7 +17,7 @@ object Style {
     object Dimens {
         const val BORDER_RADIUS = 16
         const val MAX_PAGE_WIDTH = 1280
-        const val MAX_HERO_HEIGHT = 800
+        const val MAX_HERO_HEIGHT = 840
         const val MAX_CONTACT_HEIGHT = 400
         const val ICON_SIZE = 24
         const val ICON_SIZE_LG = 32
