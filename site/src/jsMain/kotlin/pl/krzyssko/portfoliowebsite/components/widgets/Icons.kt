@@ -7,10 +7,8 @@ import com.varabyte.kobweb.compose.dom.svg.Path
 import com.varabyte.kobweb.compose.dom.svg.SVGFillType
 import com.varabyte.kobweb.compose.dom.svg.Svg
 import com.varabyte.kobweb.compose.ui.Modifier
-import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.color
 import com.varabyte.kobweb.compose.ui.modifiers.height
-import com.varabyte.kobweb.compose.ui.modifiers.size
 import com.varabyte.kobweb.compose.ui.modifiers.width
 import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
@@ -23,7 +21,7 @@ import pl.krzyssko.portfoliowebsite.style.toColorPalette
 fun LocationIcon(modifier: Modifier = Modifier) {
     val colorMode by ColorMode.currentState
     Svg(
-        attrs = modifier.width(25.px).height(24.px).color(colorMode.toColorPalette().tint)
+        attrs = modifier.width(25.px).height(24.px).color(colorMode.toColorPalette().font)
             .toAttrs {
                 viewBox(0, -960, 960, 960)
             }) {

@@ -100,7 +100,7 @@ fun LeftSideHero(modifier: Modifier = Modifier, breakpoint: Breakpoint, colorMod
         }
 
         SocialIcons(
-            modifier.color(colorMode.toColorPalette().tint).margin(bottom = 40.px)
+            modifier.color(colorMode.toColorPalette().font).margin(bottom = 40.px)
                 .thenIf(breakpoint < Breakpoint.MD, Modifier.margin(topBottom = 40.px)),
             breakpoint,
             colorMode.toColorPalette().backgroundSecondary

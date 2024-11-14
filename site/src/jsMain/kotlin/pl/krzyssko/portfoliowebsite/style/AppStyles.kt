@@ -1,19 +1,24 @@
 package pl.krzyssko.portfoliowebsite.style
 
+import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.ScrollBehavior
 import com.varabyte.kobweb.compose.css.TextAlign
+import com.varabyte.kobweb.compose.css.TextDecorationLine
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.forms.ButtonStyle
-import com.varabyte.kobweb.silk.components.forms.ButtonVars
 import com.varabyte.kobweb.silk.components.layout.HorizontalDividerStyle
+import com.varabyte.kobweb.silk.components.navigation.LinkStyle
 import com.varabyte.kobweb.silk.init.InitSilk
 import com.varabyte.kobweb.silk.init.InitSilkContext
 import com.varabyte.kobweb.silk.init.registerStyleBase
 import com.varabyte.kobweb.silk.style.*
 import com.varabyte.kobweb.silk.style.selectors.active
 import com.varabyte.kobweb.silk.style.selectors.hover
+import com.varabyte.kobweb.silk.style.selectors.link
+import com.varabyte.kobweb.silk.style.selectors.visited
+import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.palette.color
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import com.varabyte.kobweb.silk.theme.modifyStyleBase
@@ -31,33 +36,36 @@ fun initSiteStyles(ctx: InitSilkContext) {
     }
 
     ctx.stylesheet.registerStyleBase("body") {
-        //Modifier
-        //    .fontFamily(
-        //        "Space Grotesk", "Roboto", "Segoe UI", "Oxygen", "Ubuntu", "-apple-system", "BlinkMacSystemFont",
-        //        "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "sans-serif"
-        //    )
-        //    .fontWeight(400)
-        //    .fontSize(18.px)
-        //    .lineHeight(1.5)
-        regularTextModifier
+        Modifier
+            .fontFamily(
+                "Space Grotesk", "Roboto", "Segoe UI", "Oxygen", "Ubuntu", "-apple-system", "BlinkMacSystemFont",
+                "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "sans-serif"
+            )
+            .fontWeight(400)
+            .fontSize(18.px)
+            .lineHeight(1.5)
     }
 
     // Silk dividers only extend 90% by default; we want full width dividers in our site
     ctx.theme.modifyStyleBase(HorizontalDividerStyle) {
         Modifier.fillMaxWidth()
     }
+
+    ctx.theme.modifyStyleBase(ButtonStyle) {
+        Modifier.fontFamily("Space Grotesk").fontSize(18.px)
+    }
 }
 
-val regularTextModifier =
-    Modifier
-        .fontFamily("Space Grotesk")
-        .fontWeight(400)
-        .fontSize(18.px)
-        .lineHeight(1.5)
-
-val RegularTextStyle = CssStyle.base {
-    regularTextModifier
-}
+//val regularTextModifier =
+//    Modifier
+//        .fontFamily("Space Grotesk")
+//        .fontWeight(400)
+//        .fontSize(18.px)
+//        .lineHeight(1.5)
+//
+//val RegularTextStyle = CssStyle.base {
+//    regularTextModifier
+//}
 
 val HeadlineTextStyle = CssStyle.base {
     Modifier
@@ -77,18 +85,50 @@ val CircleButtonVariant = ButtonStyle.addVariantBase {
     Modifier.padding(0.px).borderRadius(50.percent)
 }
 
-val UncoloredButtonVariant = ButtonStyle.addVariantBase {
-    //Modifier.setVariable(ButtonVars.BackgroundDefaultColor, Colors.Transparent)
-    Modifier.background(Colors.Transparent)
+val StandardFontButtonVariant = ButtonStyle.addVariant {
+    base {
+        Modifier.fontWeight(400)
+    }
 }
 
-val PrimaryButtonVariant = ButtonStyle.addVariant {
-    val palette = colorMode.toColorPalette()
+val UncoloredButtonVariant = StandardFontButtonVariant.extendedBy {
     base {
-        Modifier.borderRadius(4.px).background(palette.backgroundPrimary).color(palette.tint)
+        Modifier.background(Colors.Transparent)
     }
     hover {
-        Modifier.background(palette.backgroundDim)
+        Modifier.textDecorationLine(TextDecorationLine.Underline).color(colorMode.toColorPalette().buttonFont.primary)
+    }
+    active {
+        Modifier.textDecorationLine(TextDecorationLine.Underline).color(colorMode.toColorPalette().buttonFont.secondary)
+    }
+}
+
+val ColoredLinkVariant = LinkStyle.addVariant {
+    base {
+        Modifier.color(colorMode.toColorPalette().font)
+    }
+    hover {
+        Modifier.color(colorMode.toColorPalette().buttonFont.primary)
+    }
+    active {
+        Modifier.color(colorMode.toColorPalette().buttonFont.secondary)
+    }
+}
+
+val DarkExternalLinkVariant = LinkStyle.addVariant {
+    val color = ColorMode.DARK.toColorPalette().font
+    base { Modifier.color(color).fontWeight(FontWeight.Medium) }
+    link { Modifier.fontWeight(FontWeight.Bold) }
+    visited { Modifier.fontWeight(FontWeight.Medium) }
+}
+
+val FilledButtonVariant = StandardFontButtonVariant.extendedBy {
+    val palette = colorMode.toColorPalette()
+    base {
+        Modifier.borderRadius(4.px).background(palette.backgroundPrimary).color(palette.font)
+    }
+    hover {
+        Modifier.background(palette.backgroundLighter)
     }
     active {
         Modifier.background(palette.backgroundDim)

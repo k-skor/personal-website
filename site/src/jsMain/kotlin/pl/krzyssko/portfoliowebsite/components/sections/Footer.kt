@@ -24,7 +24,7 @@ import pl.krzyssko.portfoliowebsite.style.toColorPalette
 val FooterStyle = CssStyle.base {
     Modifier
         .backgroundColor(ColorMode.DARK.toColorPalette().backgroundDim)
-        .color(ColorMode.DARK.toColorPalette().tint)
+        .color(ColorMode.DARK.toColorPalette().font)
         .padding(topBottom = 1.5.cssRem, leftRight = 10.percent)
 }
 
@@ -33,17 +33,18 @@ fun Footer(modifier: Modifier = Modifier) {
     Box(FooterStyle.toModifier().then(modifier), contentAlignment = Alignment.Center) {
         Span(Modifier.fontSize(14.px).textAlign(TextAlign.Center).toAttrs()) {
             val sitePalette = ColorMode.current.toColorPalette()
-            SpanText("built with ")
-            Link(
-                "https://github.com/varabyte/kobweb",
-                "Kobweb",
-                Modifier.setVariable(ColorVar, sitePalette.brand.primary),
-                variant = UncoloredLinkVariant
-            )
-            SpanText(", designed by ")
+            SpanText("(C) 2024", Modifier.padding(right = 0.5.cssRem))
+            SpanText("designed by ")
             Link(
                 "https://www.instagram.com/_buymyshelf/",
                 "_buymyshelf",
+                Modifier.setVariable(ColorVar, sitePalette.brand.primary),
+                variant = UncoloredLinkVariant
+            )
+            SpanText("built with ", Modifier.padding(left = 0.5.cssRem))
+            Link(
+                "https://github.com/varabyte/kobweb",
+                "Kobweb",
                 Modifier.setVariable(ColorVar, sitePalette.brand.primary),
                 variant = UncoloredLinkVariant
             )

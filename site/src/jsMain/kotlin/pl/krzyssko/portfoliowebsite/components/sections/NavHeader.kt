@@ -26,27 +26,23 @@ import com.varabyte.kobweb.silk.style.animation.toAnimation
 import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.style.breakpoint.displayIfAtLeast
 import com.varabyte.kobweb.silk.style.breakpoint.displayUntil
-import com.varabyte.kobweb.silk.style.extendedByBase
 import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import org.jetbrains.compose.web.css.*
 import pl.krzyssko.portfoliowebsite.components.widgets.IconButton
-import pl.krzyssko.portfoliowebsite.style.PrimaryButtonVariant
-import pl.krzyssko.portfoliowebsite.style.RegularTextStyle
+import pl.krzyssko.portfoliowebsite.style.ColoredLinkVariant
+import pl.krzyssko.portfoliowebsite.style.FilledButtonVariant
 import pl.krzyssko.portfoliowebsite.style.UncoloredButtonVariant
 import pl.krzyssko.portfoliowebsite.style.toColorPalette
 
 val NavHeaderStyle = CssStyle {
-    base { Modifier.fillMaxWidth().padding(leftRight = 5.cssRem, topBottom = 2.cssRem).background(colorMode.toColorPalette().backgroundSecondary).color(colorMode.toColorPalette().tint) }
-}
-
-val ButtonLinkStyle = UncoloredLinkVariant.extendedByBase {
-    Modifier.color(colorMode.toColorPalette().tint)
+    base { Modifier.fillMaxWidth().padding(1.cssRem).background(colorMode.toColorPalette().backgroundSecondary).color(colorMode.toColorPalette().font) }
+    Breakpoint.MD { Modifier.padding(leftRight = 5.cssRem, topBottom = 2.cssRem) }
 }
 
 @Composable
 private fun NavLink(path: String, text: String, modifier: Modifier = Modifier) {
-    Link(path, text, modifier, variant = UndecoratedLinkVariant.then(UncoloredLinkVariant))
+    Link(path, text, modifier, variant = ColoredLinkVariant)
 }
 
 @Composable
@@ -58,7 +54,7 @@ private fun MenuItems(modifier: Modifier = Modifier) {
 @Composable
 private fun ColorModeButton() {
     var colorMode by ColorMode.currentState
-    Button(onClick = { colorMode = colorMode.opposite }, variant = UncoloredButtonVariant, modifier = RegularTextStyle.toModifier()) {
+    Button(onClick = { colorMode = colorMode.opposite }, variant = UncoloredButtonVariant) {
         if (colorMode.isLight) {
             SpanText("{ darkmode }")
         } else {
@@ -79,12 +75,10 @@ private fun ColorModeButton() {
 
 @Composable
 private fun DownloadCvButton(colorMode: ColorMode) {
-    Button(onClick = { }, variant = PrimaryButtonVariant, modifier = RegularTextStyle.toModifier().color(colorMode.toColorPalette().tint)) {
-        Link("Krzysztof_Skórcz_-CV.pdf", openInternalLinksStrategy = OpenLinkStrategy.IN_NEW_TAB, variant = ButtonLinkStyle.then(
-            UndecoratedLinkVariant
-        )) {
-            DownloadIcon(Modifier.color(colorMode.toColorPalette().tint))
-            SpanText("download CV", Modifier.padding(left = 0.5.em).color(colorMode.toColorPalette().tint))
+    Button(onClick = { }, variant = FilledButtonVariant, modifier = Modifier.color(colorMode.toColorPalette().font)) {
+        Link("Krzysztof_Skórcz_-CV.pdf", openInternalLinksStrategy = OpenLinkStrategy.IN_NEW_TAB, variant = UndecoratedLinkVariant) {
+            DownloadIcon(Modifier.color(colorMode.toColorPalette().font))
+            SpanText("download CV", Modifier.padding(left = 0.5.em).color(colorMode.toColorPalette().font))
         }
     }
 }
@@ -168,6 +162,7 @@ fun NavHeader(modifier: Modifier = Modifier, colorMode: ColorMode) {
 private fun SideMenu(menuState: SideMenuState, close: () -> Unit, onAnimationEnd: () -> Unit) {
     Overlay(
         Modifier
+            .zIndex(10)
             .setVariable(OverlayVars.BackgroundColor, Colors.Transparent)
             .onClick { close() }
     ) {
@@ -195,9 +190,9 @@ private fun SideMenu(menuState: SideMenuState, close: () -> Unit, onAnimationEnd
                     .onAnimationEnd { onAnimationEnd() },
                 horizontalAlignment = Alignment.End
             ) {
-                CloseButton(Modifier.color(ColorMode.DARK.toColorPalette().tint), onClick = { close() })
+                CloseButton(Modifier.color(ColorMode.DARK.toColorPalette().font), onClick = { close() })
                 Column(Modifier.padding(right = 0.75.cssRem).gap(1.5.cssRem).fontSize(1.4.cssRem), horizontalAlignment = Alignment.End) {
-                    MenuItems(Modifier.color(ColorMode.DARK.toColorPalette().tint))
+                    MenuItems(Modifier.color(ColorMode.DARK.toColorPalette().font))
                     DownloadCvButton(ColorMode.DARK)
                 }
             }
