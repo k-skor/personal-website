@@ -1,12 +1,11 @@
 package pl.krzyssko.portfoliowebsite.style
 
-import com.varabyte.kobweb.compose.css.FontWeight
-import com.varabyte.kobweb.compose.css.ScrollBehavior
-import com.varabyte.kobweb.compose.css.TextAlign
-import com.varabyte.kobweb.compose.css.TextDecorationLine
+import com.varabyte.kobweb.compose.css.*
+import com.varabyte.kobweb.compose.css.Transition
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
+import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.forms.ButtonStyle
 import com.varabyte.kobweb.silk.components.layout.HorizontalDividerStyle
 import com.varabyte.kobweb.silk.components.navigation.LinkStyle
@@ -14,10 +13,7 @@ import com.varabyte.kobweb.silk.init.InitSilk
 import com.varabyte.kobweb.silk.init.InitSilkContext
 import com.varabyte.kobweb.silk.init.registerStyleBase
 import com.varabyte.kobweb.silk.style.*
-import com.varabyte.kobweb.silk.style.selectors.active
-import com.varabyte.kobweb.silk.style.selectors.hover
-import com.varabyte.kobweb.silk.style.selectors.link
-import com.varabyte.kobweb.silk.style.selectors.visited
+import com.varabyte.kobweb.silk.style.selectors.*
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.palette.color
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
@@ -55,6 +51,12 @@ fun initSiteStyles(ctx: InitSilkContext) {
         Modifier.fontFamily("Space Grotesk").fontSize(18.px)
     }
 }
+
+//val DecoratedLinkStyle = CssStyle {
+//    base { Modifier.color(CSSColor.Inherit).fontWeight(FontWeight.Medium) }
+//    link { Modifier.fontWeight(FontWeight.Bold) }
+//    visited { Modifier.fontWeight(FontWeight.Medium) }
+//}
 
 //val regularTextModifier =
 //    Modifier
@@ -103,6 +105,45 @@ val UncoloredButtonVariant = StandardFontButtonVariant.extendedBy {
     }
 }
 
+val ParenthesesStyle = CssStyle {
+    base {
+        Modifier.whiteSpace(WhiteSpace.NoWrap)
+    }
+    before {
+        Modifier.content("{").textDecorationLine(TextDecorationLine.None)
+    }
+    after {
+        Modifier.content("}").textDecorationLine(TextDecorationLine.None)
+    }
+}
+
+val CodeBracketsStyle = CssStyle {
+    before {
+        Modifier.content("<").textDecorationLine(TextDecorationLine.None)
+    }
+    after {
+        Modifier.content("/>").textDecorationLine(TextDecorationLine.None)
+    }
+}
+
+val SectionArrowStyle = CssStyle {
+    before {
+        Modifier.content(">")
+    }
+    hover {
+        Modifier
+    }
+}
+
+//val ParenthesesSpanTextVariant = SpanTextStyle.addVariant {
+//    before {
+//        Modifier.content("{ ").textDecorationLine(TextDecorationLine.None)
+//    }
+//    after {
+//        Modifier.content(" }").textDecorationLine(TextDecorationLine.None)
+//    }
+//}
+
 val ColoredLinkVariant = LinkStyle.addVariant {
     base {
         Modifier.color(colorMode.toColorPalette().font)
@@ -116,16 +157,45 @@ val ColoredLinkVariant = LinkStyle.addVariant {
 }
 
 val DarkExternalLinkVariant = LinkStyle.addVariant {
-    val color = ColorMode.DARK.toColorPalette().font
-    base { Modifier.color(color).fontWeight(FontWeight.Medium) }
+    base { Modifier.color(CSSColor.Inherit).fontWeight(FontWeight.Medium) }
     link { Modifier.fontWeight(FontWeight.Bold) }
     visited { Modifier.fontWeight(FontWeight.Medium) }
 }
 
-val FilledButtonVariant = StandardFontButtonVariant.extendedBy {
-    val palette = colorMode.toColorPalette()
+val AnimatedUnderlineLinkVariant = LinkStyle.addVariant {
     base {
-        Modifier.borderRadius(4.px).background(palette.backgroundPrimary).color(palette.font)
+        Modifier.transition(Transition.of("text-decoration-color", 300.ms)).styleModifier {
+            property("text-decoration", "underline ${Colors.Transparent}")
+        }
+    }
+    hover {
+        Modifier.styleModifier {
+            property("text-decoration-color", CSSColor.Inherit)
+        }
+    }
+}
+
+val AnimatedUnderlineButtonVariant = ButtonStyle.addVariant {
+    base {
+        Modifier.transition(Transition.of("text-decoration-color", 300.ms)).styleModifier {
+            property("text-decoration", "underline ${Colors.Transparent}")
+        }
+    }
+    hover {
+        Modifier.styleModifier {
+            property("text-decoration-color", CSSColor.Inherit)
+        }
+    }
+}
+
+val FilledButtonVariant = StandardFontButtonVariant.extendedBy {
+    val palette = colorMode.opposite.toColorPalette()
+    base {
+        val backgroundColor = when (colorMode) {
+            ColorMode.LIGHT -> palette.backgroundPrimary
+            ColorMode.DARK -> palette.backgroundSecondary
+        }
+        Modifier.borderRadius(Style.Dimens.BORDER_RADIUS.px).background(backgroundColor).color(palette.font)
     }
     hover {
         Modifier.background(palette.backgroundLighter)
@@ -133,4 +203,29 @@ val FilledButtonVariant = StandardFontButtonVariant.extendedBy {
     active {
         Modifier.background(palette.backgroundDim)
     }
+}
+
+val SectionTitleParentStyle = CssStyle {
+    cssRule(":hover .fading-section-arrow") {
+        Modifier.opacity(0)
+    }
+    cssRule(":hover .moving-section-title") {
+        Modifier
+            .transform { translateX((-1).em) }
+            .transformOrigin(TransformOrigin.Right)
+    }
+}
+
+val FadingSectionArrowStyle = CssStyle.base {
+    Modifier
+        .display(DisplayStyle.InlineBlock)
+        .width(1.em)
+        .opacity(1)
+        .transition(Transition.of("opacity", 0.5.s))
+}
+
+val MovingSectionTitleStyle = CssStyle.base {
+    Modifier
+        .display(DisplayStyle.InlineBlock)
+        .transition(Transition.of("all", 0.5.s))
 }

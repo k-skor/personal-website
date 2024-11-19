@@ -38,14 +38,14 @@ fun Footer(modifier: Modifier = Modifier) {
             Link(
                 "https://www.instagram.com/_buymyshelf/",
                 "_buymyshelf",
-                Modifier.setVariable(ColorVar, sitePalette.brand.primary),
+                Modifier.setVariable(ColorVar, sitePalette.brand.accent),
                 variant = UncoloredLinkVariant
             )
             SpanText("built with ", Modifier.padding(left = 0.5.cssRem))
             Link(
                 "https://github.com/varabyte/kobweb",
                 "Kobweb",
-                Modifier.setVariable(ColorVar, sitePalette.brand.primary),
+                Modifier.setVariable(ColorVar, sitePalette.brand.accent),
                 variant = UncoloredLinkVariant
             )
         }

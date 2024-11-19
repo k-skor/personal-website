@@ -106,3 +106,33 @@ fun ArrowLinkIcon(modifier: Modifier = Modifier) {
         }
     }
 }
+
+@Composable
+fun CloseIcon(modifier: Modifier = Modifier) {
+    Svg(attrs = modifier
+        .toAttrs {
+            viewBox(0, 0, 21, 21)
+    }) {
+        Path {
+            d("M1.6157 21.2707L0.458618 20.1136L19.843 0.72926L21.0001 1.88634L1.6157 21.2707Z")
+            fill(SVGFillType.CurrentColor)
+        }
+        Path {
+            d("M0.243917 1.88633L1.401 0.729248L20.7854 20.1136L19.6283 21.2707L0.243917 1.88633Z")
+            fill(SVGFillType.CurrentColor)
+        }
+    }
+}
+
+@Composable
+fun HamburgerIcon(modifier: Modifier = Modifier) {
+    Svg(attrs = modifier
+        .toAttrs {
+            viewBox(0, 0, 28, 18)
+        }) {
+        Path {
+            d("M0.586304 18V16.3636H28V18H0.586304ZM0.586304 9.81818V8.18182H28V9.81818H0.586304ZM0.586304 1.63636V0H28V1.63636H0.586304Z")
+            fill(SVGFillType.CurrentColor)
+        }
+    }
+}

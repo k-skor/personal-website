@@ -2,6 +2,8 @@ package pl.krzyssko.portfoliowebsite.components.sections
 
 import androidx.compose.runtime.*
 import com.varabyte.kobweb.browser.dom.ElementTarget
+import com.varabyte.kobweb.compose.css.VerticalAlign
+import com.varabyte.kobweb.compose.css.WhiteSpace
 import com.varabyte.kobweb.compose.css.functions.clamp
 import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.foundation.layout.Row
@@ -10,39 +12,53 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
+import com.varabyte.kobweb.compose.ui.toAttrs
 import com.varabyte.kobweb.navigation.OpenLinkStrategy
 import com.varabyte.kobweb.silk.components.forms.Button
-import com.varabyte.kobweb.silk.components.icons.CloseIcon
 import com.varabyte.kobweb.silk.components.icons.DownloadIcon
-import com.varabyte.kobweb.silk.components.icons.HamburgerIcon
 import com.varabyte.kobweb.silk.components.navigation.Link
-import com.varabyte.kobweb.silk.components.navigation.UncoloredLinkVariant
+import com.varabyte.kobweb.silk.components.navigation.LinkKind
 import com.varabyte.kobweb.silk.components.navigation.UndecoratedLinkVariant
 import com.varabyte.kobweb.silk.components.overlay.*
 import com.varabyte.kobweb.silk.components.text.SpanText
-import com.varabyte.kobweb.silk.style.CssStyle
+import com.varabyte.kobweb.silk.style.*
 import com.varabyte.kobweb.silk.style.animation.Keyframes
 import com.varabyte.kobweb.silk.style.animation.toAnimation
 import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.style.breakpoint.displayIfAtLeast
 import com.varabyte.kobweb.silk.style.breakpoint.displayUntil
-import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.Span
+import pl.krzyssko.portfoliowebsite.components.widgets.CloseIcon
+import pl.krzyssko.portfoliowebsite.components.widgets.HamburgerIcon
 import pl.krzyssko.portfoliowebsite.components.widgets.IconButton
-import pl.krzyssko.portfoliowebsite.style.ColoredLinkVariant
-import pl.krzyssko.portfoliowebsite.style.FilledButtonVariant
-import pl.krzyssko.portfoliowebsite.style.UncoloredButtonVariant
-import pl.krzyssko.portfoliowebsite.style.toColorPalette
+import pl.krzyssko.portfoliowebsite.style.*
 
 val NavHeaderStyle = CssStyle {
     base { Modifier.fillMaxWidth().padding(1.cssRem).background(colorMode.toColorPalette().backgroundSecondary).color(colorMode.toColorPalette().font) }
-    Breakpoint.MD { Modifier.padding(leftRight = 5.cssRem, topBottom = 2.cssRem) }
+    Breakpoint.MD { Modifier.padding(leftRight = 5.cssRem, topBottom = 1.5.cssRem) }
+}
+
+val HomeLinkVariant = ColoredLinkVariant.extendedByBase {
+    var fontColor = colorMode.toColorPalette().font
+    if (colorMode == ColorMode.LIGHT) {
+        fontColor = colorMode.toColorPalette().backgroundPrimary
+    }
+    Modifier.color(fontColor)
+}
+
+val AlwaysLightParenthesesStyle = UncoloredButtonVariant.extendedByBase {
+    Modifier.color(ColorMode.LIGHT.toColorPalette().font)
 }
 
 @Composable
-private fun NavLink(path: String, text: String, modifier: Modifier = Modifier) {
-    Link(path, text, modifier, variant = ColoredLinkVariant)
+private fun NavLink(path: String, text: String, modifier: Modifier = Modifier, variant: CssStyleVariant<LinkKind>? = null) {
+    val variants = ColoredLinkVariant.then(AnimatedUnderlineLinkVariant)
+    Link(path, text, modifier, variant = variant?.let {
+        variants.then(it)
+    } ?: variants)
 }
 
 @Composable
@@ -52,20 +68,23 @@ private fun MenuItems(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun ColorModeButton() {
+private fun ColorModeButton(modifier: Modifier = Modifier) {
     var colorMode by ColorMode.currentState
-    Button(onClick = { colorMode = colorMode.opposite }, variant = UncoloredButtonVariant) {
-        if (colorMode.isLight) {
-            SpanText("{ darkmode }")
-        } else {
-            SpanText("{ lightmode }")
+    Div(ParenthesesStyle.toAttrs()) {
+        Button(onClick = { colorMode = colorMode.opposite }, variant = UncoloredButtonVariant.then(
+            AnimatedUnderlineButtonVariant), modifier = modifier.verticalAlign(
+            VerticalAlign.Baseline).padding(leftRight = 0.5.cssRem)) {
+            if (colorMode.isLight) {
+                SpanText("darkmode")
+            } else {
+                SpanText("lightmode")
+            }
         }
     }
     Tooltip(
         ElementTarget.PreviousSibling,
         "Toggle color mode",
-        modifier = Modifier.padding(leftRight = 4.px).fontSize(14.px)
-            .background((if (colorMode.isLight) Colors.Black else Colors.White).toRgb().copyf(alpha = 0.6f)),
+        modifier = Modifier.padding(leftRight = 4.px).fontSize(14.px).zIndex(3),
         placement = PopupPlacement.BottomRight,
         showDelayMs = 500,
         hideDelayMs = 500,
@@ -74,19 +93,29 @@ private fun ColorModeButton() {
 }
 
 @Composable
-private fun DownloadCvButton(colorMode: ColorMode) {
-    Button(onClick = { }, variant = FilledButtonVariant, modifier = Modifier.color(colorMode.toColorPalette().font)) {
+private fun HomeButton(modifier: Modifier = Modifier) {
+    Span(attrs = CodeBracketsStyle.toModifier().then(modifier).toAttrs()) {
+        NavLink("#home", "krzysztof skórcz", modifier.padding(leftRight = 0.5.em).whiteSpace(WhiteSpace.NoWrap))
+    }
+}
+
+@Composable
+private fun DownloadCvButton(modifier: Modifier = Modifier, colorMode: ColorMode) {
+    Button(onClick = { }, variant = FilledButtonVariant) {
         Link("Krzysztof_Skórcz_-CV.pdf", openInternalLinksStrategy = OpenLinkStrategy.IN_NEW_TAB, variant = UndecoratedLinkVariant) {
-            DownloadIcon(Modifier.color(colorMode.toColorPalette().font))
-            SpanText("download CV", Modifier.padding(left = 0.5.em).color(colorMode.toColorPalette().font))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                val buttonModifier = modifier.color(colorMode.toOppositePalette().font)
+                DownloadIcon(buttonModifier)
+                SpanText("download CV", buttonModifier.padding(left = 0.5.em))
+            }
         }
     }
 }
 
 @Composable
-private fun HamburgerButton(onClick: () -> Unit) {
+private fun HamburgerButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     IconButton(onClick) {
-        HamburgerIcon()
+        HamburgerIcon(modifier)
     }
 }
 
@@ -123,16 +152,15 @@ enum class SideMenuState {
 
 @Composable
 fun NavHeader(modifier: Modifier = Modifier, colorMode: ColorMode) {
-    val palette = colorMode.toColorPalette()
     Row(NavHeaderStyle.toModifier().then(modifier), verticalAlignment = Alignment.CenterVertically) {
-        NavLink("/", "</ krzysztof skórcz >", Modifier.fontWeight(400).color(palette.backgroundPrimary))
+        HomeButton(Modifier.fontWeight(400).color(colorMode.toColorPalette().brand.primary))
 
         Spacer()
 
         Row(Modifier.gap(40.px).displayIfAtLeast(Breakpoint.MD), verticalAlignment = Alignment.CenterVertically) {
             ColorModeButton()
             MenuItems()
-            DownloadCvButton(ColorMode.DARK)
+            DownloadCvButton(colorMode = colorMode)
         }
 
         Row(
@@ -144,12 +172,12 @@ fun NavHeader(modifier: Modifier = Modifier, colorMode: ColorMode) {
         ) {
             var menuState by remember { mutableStateOf(SideMenuState.CLOSED) }
 
-            ColorModeButton()
-            HamburgerButton(onClick =  { menuState = SideMenuState.OPEN })
+            HamburgerButton(Modifier.color(colorMode.toColorPalette().brand.primary), onClick =  { menuState = SideMenuState.OPEN })
 
             if (menuState != SideMenuState.CLOSED) {
                 SideMenu(
                     menuState,
+                    colorMode,
                     close = { menuState = menuState.close() },
                     onAnimationEnd = { if (menuState == SideMenuState.CLOSING) menuState = SideMenuState.CLOSED }
                 )
@@ -159,10 +187,10 @@ fun NavHeader(modifier: Modifier = Modifier, colorMode: ColorMode) {
 }
 
 @Composable
-private fun SideMenu(menuState: SideMenuState, close: () -> Unit, onAnimationEnd: () -> Unit) {
+private fun SideMenu(menuState: SideMenuState, colorMode: ColorMode, close: () -> Unit, onAnimationEnd: () -> Unit) {
     Overlay(
         Modifier
-            .zIndex(10)
+            .zIndex(2)
             .setVariable(OverlayVars.BackgroundColor, Colors.Transparent)
             .onClick { close() }
     ) {
@@ -170,13 +198,12 @@ private fun SideMenu(menuState: SideMenuState, close: () -> Unit, onAnimationEnd
             Column(
                 Modifier
                     .fillMaxHeight()
-                    .width(clamp(10.percent, 16.cssRem, 60.percent))
+                    .width(clamp(10.percent, 12.cssRem, 50.percent))
                     .align(Alignment.CenterEnd)
                     // Close button will appear roughly over the hamburger button, so the user can close
                     // things without moving their finger / cursor much.
                     .padding(top = 1.cssRem, leftRight = 1.cssRem)
-                    .gap(1.5.cssRem)
-                    .backgroundColor(ColorMode.current.toColorPalette().backgroundDim)
+                    .backgroundColor(colorMode.toColorPalette().backgroundSideMenu)
                     .animation(
                         SideMenuSlideInAnim.toAnimation(
                             duration = 200.ms,
@@ -185,15 +212,15 @@ private fun SideMenu(menuState: SideMenuState, close: () -> Unit, onAnimationEnd
                             fillMode = AnimationFillMode.Forwards
                         )
                     )
-                    .borderRadius(topLeft = 2.cssRem)
                     .onClick { it.stopPropagation() }
                     .onAnimationEnd { onAnimationEnd() },
                 horizontalAlignment = Alignment.End
             ) {
-                CloseButton(Modifier.color(ColorMode.DARK.toColorPalette().font), onClick = { close() })
-                Column(Modifier.padding(right = 0.75.cssRem).gap(1.5.cssRem).fontSize(1.4.cssRem), horizontalAlignment = Alignment.End) {
-                    MenuItems(Modifier.color(ColorMode.DARK.toColorPalette().font))
-                    DownloadCvButton(ColorMode.DARK)
+                CloseButton(Modifier.color(colorMode.toColorPalette().brand.primary).size(28.px), onClick = { close() })
+                Column(Modifier.padding(top = 3.cssRem).gap(3.cssRem).fontSize(14.px), horizontalAlignment = Alignment.End) {
+                    ColorModeButton(Modifier.fontSize(14.px))
+                    MenuItems()
+                    DownloadCvButton(Modifier.fontSize(14.px), colorMode = colorMode)
                 }
             }
         }

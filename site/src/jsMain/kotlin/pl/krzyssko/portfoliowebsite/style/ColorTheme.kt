@@ -13,12 +13,13 @@ class ColorPalette(
     val backgroundDim: Color = Color.rgb(Style.Colors.COLOR_BACKGROUND_DIM),
     val backgroundLighter: Color = Color.rgb(Style.Colors.COLOR_BACKGROUND_LIGHER),
     val font: Color,
-    val brand: Brand = Brand(),
+    val brand: Brand,
     val buttonFont: Button = Button(),
+    val backgroundSideMenu: Color,
 ) {
     class Brand(
-        val primary: Color = Color.rgb(Style.Colors.COLOR_PRIMARY),
-        val accent: Color = Color.rgb(Style.Colors.COLOR_ACCENT),
+        val primary: Color,
+        val accent: Color,
     )
     class Button(
         val primary: Color = Color.rgb(Style.Colors.COLOR_BUTTON_FONT_PRIMARY_LIGHT),
@@ -31,13 +32,17 @@ object ColorPalettes {
         backgroundPrimary = Color.rgb(Style.Colors.COLOR_BACKGROUND_PRIMARY_LIGHT),
         backgroundSecondary = Color.rgb(Style.Colors.COLOR_BACKGROUND_SECONDARY_LIGHT),
         font = Color.rgb(Style.Colors.COLOR_FONT_PRIMARY_LIGHT),
-        buttonFont = ColorPalette.Button(Color.rgb(Style.Colors.COLOR_BUTTON_FONT_PRIMARY_LIGHT), Color.rgb(Style.Colors.COLOR_BUTTON_FONT_SECONDARY_LIGHT))
+        brand = ColorPalette.Brand(primary = Color.rgb(Style.Colors.COLOR_BACKGROUND_PRIMARY_LIGHT), accent = Color.rgb(Style.Colors.COLOR_ACCENT)),
+        buttonFont = ColorPalette.Button(Color.rgb(Style.Colors.COLOR_BUTTON_FONT_PRIMARY_LIGHT), Color.rgb(Style.Colors.COLOR_BUTTON_FONT_SECONDARY_LIGHT)),
+        backgroundSideMenu = Color.rgb(Style.Colors.COLOR_SIDE_MENU_LIGHT),
     )
     val dark = ColorPalette(
         backgroundPrimary = Color.rgb(Style.Colors.COLOR_BACKGROUND_PRIMARY_DARK),
         backgroundSecondary = Color.rgb(Style.Colors.COLOR_BACKGROUND_SECONDARY_DARK),
         font = Color.rgb(Style.Colors.COLOR_FONT_PRIMARY_DARK),
-        buttonFont = ColorPalette.Button(Color.rgb(Style.Colors.COLOR_BUTTON_FONT_PRIMARY_DARK), Color.rgb(Style.Colors.COLOR_BUTTON_FONT_SECONDARY_DARK))
+        brand = ColorPalette.Brand(primary = Color.rgb(Style.Colors.COLOR_FONT_PRIMARY_DARK), accent = Color.rgb(Style.Colors.COLOR_ACCENT)),
+        buttonFont = ColorPalette.Button(Color.rgb(Style.Colors.COLOR_BUTTON_FONT_PRIMARY_DARK), Color.rgb(Style.Colors.COLOR_BUTTON_FONT_SECONDARY_DARK)),
+        backgroundSideMenu = Color.rgb(Style.Colors.COLOR_SIDE_MENU_DARK),
     )
 }
 
