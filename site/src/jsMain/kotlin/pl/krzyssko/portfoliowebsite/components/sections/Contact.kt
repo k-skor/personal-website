@@ -35,22 +35,22 @@ val ContactContentStyle = CssStyle {
 @Composable
 private fun Title(modifier: Modifier = Modifier, breakpoint: Breakpoint) {
     Div(HeadlineTextStyle.toModifier().then(modifier).id("contact").toAttrs()) {
-        MovingSectionTitle(breakpoint = breakpoint, decorator = ">", title = "contact")
+        MovingSectionTitle(breakpoint = breakpoint, decorator = ">", title = "Contact me")
     }
 }
 
 @Composable
 fun ContactInfo(modifier: Modifier = Modifier, breakpoint: Breakpoint) {
     Column(modifier.fillMaxWidth(if (breakpoint < Breakpoint.MD) 100.percent else 50.percent).gap(1.cssRem), verticalArrangement = Arrangement.SpaceBetween) {
-        Row(Modifier.fillMaxWidth().gap(2.cssRem)) {
-            Box(Modifier.fillMaxWidth(8.cssRem).align(Alignment.CenterVertically)) {
-                SpanText("e-mail", modifier = Modifier.fontSize(14.px).whiteSpace(WhiteSpace.NoWrap))
+        Row(Modifier.fillMaxWidth().gap(22.px)) {
+            Box(Modifier.fillMaxWidth(40.percent).align(Alignment.CenterVertically)) {
+                SpanText("e-mail", modifier = Modifier.fontSize(12.px).whiteSpace(WhiteSpace.NoWrap))
             }
             Link(path = "mailto:krzy.skorcz@gmail.com", text = "krzy.skorcz@gmail.com", modifier = Modifier.fontWeight(400), variant = DarkExternalLinkVariant)
         }
         Row(Modifier.fillMaxWidth().gap(22.px)) {
-            Box(Modifier.fillMaxWidth(8.cssRem).align(Alignment.CenterVertically)) {
-                SpanText("phone number", modifier = Modifier.fontSize(14.px).whiteSpace(WhiteSpace.PreLine))
+            Box(Modifier.fillMaxWidth(40.percent).align(Alignment.CenterVertically)) {
+                SpanText("phone number", modifier = Modifier.fontSize(12.px).whiteSpace(WhiteSpace.PreLine))
             }
             Link(path = "tel:+48886331190", text = "+48 886 331 190", modifier = Modifier.fontWeight(400), variant = DarkExternalLinkVariant)
         }
@@ -88,7 +88,7 @@ fun ContactLinks(modifier: Modifier = Modifier, colorMode: ColorMode, breakpoint
 fun Contact() {
     val colorMode = ColorMode.DARK
     val breakpoint = rememberBreakpoint()
-    Box(ContactStyle.toModifier(), contentAlignment = Alignment.TopCenter) {
+    Box(ContactStyle.toModifier().then(FadeInElementStyle.toModifier()), contentAlignment = Alignment.TopCenter) {
         Column(ContactContentStyle.toModifier().fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
             Title(breakpoint = breakpoint)
             SpanText("I'm willing to cooperate in form of freelance work for a single project or job but I'm also open to full-time job offers. Let's stay in touch! (PL or EN)", Modifier.fontSize(15.px).lineHeight(1.25))

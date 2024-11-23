@@ -1,7 +1,6 @@
 package pl.krzyssko.portfoliowebsite.components.sections
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import com.varabyte.kobweb.compose.css.ObjectFit
 import com.varabyte.kobweb.compose.css.TextDecorationLine.Companion.Underline
 import com.varabyte.kobweb.compose.css.TransformOrigin
@@ -10,6 +9,7 @@ import com.varabyte.kobweb.compose.css.WhiteSpace
 import com.varabyte.kobweb.compose.foundation.layout.*
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.thenIf
 import com.varabyte.kobweb.compose.ui.toAttrs
@@ -21,11 +21,13 @@ import com.varabyte.kobweb.silk.style.selectors.hover
 import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
 import pl.krzyssko.portfoliowebsite.components.widgets.SocialIcons
 import pl.krzyssko.portfoliowebsite.style.*
+import kotlin.time.Duration.Companion.milliseconds
 
 val HeroStyle = CssStyle {
     base { Modifier.fillMaxWidth().padding(1.cssRem).background(colorMode.toColorPalette().backgroundSecondary).zIndex(0) }
@@ -78,22 +80,20 @@ fun LeftSideTitle(modifier: Modifier = Modifier, breakpoint: Breakpoint) {
 }
 
 @Composable
-fun LeftSideHero(modifier: Modifier = Modifier, breakpoint: Breakpoint, colorMode: ColorMode) {
+fun LeftSideHero(modifier: Modifier = Modifier, breakpoint: Breakpoint, colorMode: ColorMode, showBottomSection: MutableState<Boolean> = mutableStateOf(true), showDescription: MutableState<Boolean> = mutableStateOf(true)) {
     Column(
         modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Column(HeroColumnStyle.toModifier()) {
-            Row {
-                Div(Modifier.fontSize(16.px).lineHeight(26.px).toAttrs()) {
-                    SpanText("Krzysztof Skórcz is a Software Engineer experienced in many different areas of software engineering.\nHis primary but not limited to expertise is ", Modifier.whiteSpace(WhiteSpace.PreLine))
-                    SpanText("mobile applications", modifier = Modifier.textDecorationLine(Underline))
-                    Text(". He worked with different languages, platforms, cloud providers (mainly Azure) and technologies. Krzysztof's secondary focus area is ")
-                    SpanText("IoT and Edge Computing", modifier = Modifier.textDecorationLine(Underline))
-                    Text(". He participated in numerous projects in various roles building, designing and presenting cutting-edge software as a senior or leader. Constantly improving his skill set, recently expanding it on Machine Learning.")
-                }
+            Div(Modifier.fontSize(15.px).lineHeight(25.px).color(Colors.Transparent).thenIf(showDescription.value, FadeInColorElementStyle.toModifier()).toAttrs()) {
+                SpanText("Krzysztof Skórcz is a Software Engineer experienced in many different areas of software engineering.\nHis primary but not limited to expertise is ", Modifier.whiteSpace(WhiteSpace.PreLine))
+                SpanText("mobile applications", modifier = Modifier.textDecorationLine(Underline))
+                Text(". He worked with different languages, platforms, cloud providers (mainly Azure) and technologies. Krzysztof's secondary focus area is ")
+                SpanText("IoT and Edge Computing", modifier = Modifier.textDecorationLine(Underline))
+                Text(". He participated in numerous projects in various roles building, designing and presenting cutting-edge software as a senior or leader. Constantly improving his skill set, recently expanding it on Machine Learning.")
             }
-            Column(Modifier.gap(18.px).fillMaxWidth()) {
+            Column(Modifier.gap(18.px).fillMaxWidth().color(Colors.Transparent).thenIf(showBottomSection.value, FadeInColorElementStyle.toModifier())) {
                 Row(HeroRowStyle.toModifier()) {
                     Box(Modifier.fillMaxWidth(40.percent).align(Alignment.CenterVertically)) {
                         SpanText("Programming\nLanguages", modifier = Modifier.fontSize(12.px).whiteSpace(WhiteSpace.PreLine))
@@ -124,7 +124,7 @@ fun LeftSideHero(modifier: Modifier = Modifier, breakpoint: Breakpoint, colorMod
         }
 
         SocialIcons(
-            modifier.color(colorMode.toColorPalette().font),
+            modifier.color(Colors.Transparent).thenIf(showBottomSection.value, FadeInColorElementStyle.toModifier()),
             breakpoint,
             colorMode.toColorPalette().backgroundSecondary
         )
@@ -148,18 +148,40 @@ fun RightSideHero(modifier: Modifier = Modifier, breakpoint: Breakpoint) {
 fun Hero() {
     val colorMode by ColorMode.currentState
     val breakpoint = rememberBreakpoint()
+    val showTitle = remember { mutableStateOf(false) }
+    val showPhoto = remember { mutableStateOf(false) }
+    val showBottomSection = remember { mutableStateOf(false) }
+    val showDescription = remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) {
+        // Loading sequence (motion): title, photo, bottom section, description
+        showTitle.value = true
+        delay(500.milliseconds)
+        showPhoto.value = true
+        delay(500.milliseconds)
+        showBottomSection.value = true
+        delay(500.milliseconds)
+        showDescription.value = true
+    }
     Box(HeroStyle.toModifier().id("home"), contentAlignment = Alignment.TopCenter) {
         if (breakpoint >= Breakpoint.MD) {
             Box(HeroContentStyle.toModifier().gridTemplateRows { size(minContent); size(1.fr) }.gridTemplateColumns { size((Style.Dimens.MAX_PAGE_WIDTH*3/4).px); size(minContent) }) {
-                LeftSideTitle(Modifier.gridRow(1).gridColumn(1), breakpoint)
-                LeftSideHero(Modifier.gridRow(2).gridColumn(1), breakpoint, colorMode)
-                RightSideHero(Modifier.gridRow(2).gridColumn(2).fillMaxWidth((Style.Dimens.MAX_PAGE_WIDTH/4).px), breakpoint)
+                if (showTitle.value) {
+                    LeftSideTitle(Modifier.gridRow(1).gridColumn(1).then(FadeInElementStyle.toModifier()), breakpoint)
+                }
+                LeftSideHero(Modifier.gridRow(2).gridColumn(1), breakpoint, colorMode, showBottomSection, showDescription)
+                if (showPhoto.value) {
+                    RightSideHero(Modifier.gridRow(2).gridColumn(2).fillMaxWidth((Style.Dimens.MAX_PAGE_WIDTH/4).px).then(FadeInElementStyle.toModifier()), breakpoint)
+                }
             }
         } else {
             Column(HeroContentStyle.toModifier()) {
-                LeftSideTitle(Modifier.padding(bottom = 2.cssRem), breakpoint)
-                RightSideHero(Modifier.maxWidth(10.cssRem), breakpoint = breakpoint)
-                LeftSideHero(breakpoint = breakpoint, colorMode = colorMode)
+                if (showTitle.value) {
+                    LeftSideTitle(Modifier.padding(bottom = 2.cssRem).then(FadeInElementStyle.toModifier()), breakpoint)
+                }
+                if (showPhoto.value) {
+                    RightSideHero(Modifier.maxWidth(10.cssRem).then(FadeInElementStyle.toModifier()), breakpoint = breakpoint)
+                }
+                LeftSideHero(breakpoint = breakpoint, colorMode = colorMode, showBottomSection = showBottomSection, showDescription = showDescription)
             }
         }
     }

@@ -13,6 +13,7 @@ import com.varabyte.kobweb.silk.init.InitSilk
 import com.varabyte.kobweb.silk.init.InitSilkContext
 import com.varabyte.kobweb.silk.init.registerStyleBase
 import com.varabyte.kobweb.silk.style.*
+import com.varabyte.kobweb.silk.style.animation.Keyframes
 import com.varabyte.kobweb.silk.style.selectors.*
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.palette.color
@@ -228,4 +229,46 @@ val MovingSectionTitleStyle = CssStyle.base {
     Modifier
         .display(DisplayStyle.InlineBlock)
         .transition(Transition.of("all", 0.5.s))
+}
+
+val FadeInAnim = Keyframes {
+    from {
+        Modifier.opacity(0)
+    }
+
+    to {
+        Modifier.opacity(1)
+    }
+}
+
+val FadeInColorAnim = Keyframes {
+    from {
+        Modifier.color(Colors.Transparent)
+    }
+
+    to {
+        Modifier.color(CSSColor.Inherit)
+    }
+}
+
+val FadeInElementStyle = CssStyle.base {
+    Modifier.animation(
+        FadeInAnim.toAnimation(
+            duration = 500.ms,
+            timingFunction = AnimationTimingFunction.EaseIn,
+            direction = AnimationDirection.Normal,
+            fillMode = AnimationFillMode.Forwards
+        )
+    )
+}
+
+val FadeInColorElementStyle = CssStyle.base {
+    Modifier.animation(
+        FadeInColorAnim.toAnimation(
+            duration = 500.ms,
+            timingFunction = AnimationTimingFunction.EaseIn,
+            direction = AnimationDirection.Normal,
+            fillMode = AnimationFillMode.Forwards
+        )
+    )
 }

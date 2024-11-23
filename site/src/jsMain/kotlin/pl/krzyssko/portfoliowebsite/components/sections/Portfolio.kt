@@ -3,6 +3,7 @@ package pl.krzyssko.portfoliowebsite.components.sections
 import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.css.ObjectFit
 import com.varabyte.kobweb.compose.css.WhiteSpace
+import com.varabyte.kobweb.compose.css.functions.clamp
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.foundation.layout.Column
@@ -43,7 +44,7 @@ val PortfolioContentStyle = CssStyle {
 @Composable
 private fun Title(modifier: Modifier = Modifier, breakpoint: Breakpoint) {
     Div(HeadlineTextStyle.toModifier().then(modifier).toAttrs()) {
-        MovingSectionTitle(modifier, breakpoint, ">", "portfolio")
+        MovingSectionTitle(modifier, breakpoint, ">", "Portfolio is my advantage")
     }
 }
 
@@ -171,13 +172,13 @@ fun PortfolioLayout(modifier: Modifier = Modifier, content: @Composable (colorMo
 
 @Composable
 fun Portfolio() {
-    Box(PortfolioStyle.toModifier(), contentAlignment = Alignment.TopCenter) {
+    Box(PortfolioStyle.toModifier().then(FadeInElementStyle.toModifier()), contentAlignment = Alignment.TopCenter) {
         val colorMode = ColorMode.DARK
         val palette = colorMode.toColorPalette()
         val breakpoint = rememberBreakpoint()
         PortfolioLayout(Modifier.id("portfolio")) {
             Title(breakpoint = breakpoint)
-            Box {
+            Box(Modifier.fontSize(15.px).lineHeight(25.px).fillMaxWidth(clamp(20.cssRem, 65.percent, 40.cssRem))) {
                 SpanText("Reference projects I've worked on. The last, 4th application is the Portfolio Browser which is a reference demo app for any professional portfolio. Two birds with one stone!")
             }
 
@@ -209,12 +210,11 @@ fun Portfolio() {
                 title = "Mersive Smart",
                 link = "https://www.mersive.com/product/mersive-smart/",
                 content = "Android TV app for remote sharing content to a Smart TV device like TV or stick. Uses WebRTC to video and audio transmission. Aimed for enterprise and education.\n",
-                icon = "mersive.webp",
+                icon = "mersive.jpg",
                 stack = mapOf("TypeScript" to 100)
             )
             Column(Modifier.gap(1.cssRem)) {
-                MovingSectionTitle(Modifier.fontSize(22.px).lineHeight(1.5), breakpoint, ">", "portfolio app")
-                SpanText("Demo app presenting portfolio - coming soon!", Modifier.fontSize(15.px))
+                MovingSectionTitle(Modifier.fontSize(22.px), breakpoint, ">", "Portfolio browser - demo app presenting portfolio is coming soon!")
             }
             PortfolioCard(
                 Modifier.color(palette.font),
@@ -222,6 +222,7 @@ fun Portfolio() {
                 title = "Portfolio Browser",
                 link = "https://github.com/k-skor/portfolio-browser",
                 content = "Demo app presenting a projects portfolio.",
+                icon = "placeholder.jpg",
                 stack = mapOf("Kotlin" to 55, "Java" to 25, "TypeScript" to 20, "C++" to 10)
             )
         }

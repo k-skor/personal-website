@@ -1,6 +1,7 @@
 package pl.krzyssko.portfoliowebsite.components.widgets
 
 import androidx.compose.runtime.Composable
+import com.varabyte.kobweb.compose.css.CSSColor
 import com.varabyte.kobweb.compose.css.Transition
 import com.varabyte.kobweb.compose.foundation.layout.Arrangement
 import com.varabyte.kobweb.compose.foundation.layout.Box
@@ -42,17 +43,17 @@ fun SocialIcons(modifier: Modifier = Modifier, breakpoint: Breakpoint, backgroun
     Row(modifier.gap(60.px), horizontalArrangement = if (breakpoint <= Breakpoint.SM)
         Arrangement.Center else Arrangement.Start) {
         HighlightIcon(modifier) {
-            Link(path = "https://github.com/k-skor") {
+            Link(path = "https://github.com/k-skor", Modifier.color(CSSColor.Inherit)) {
                 GitHubIcon(modifier.size(32.px))
             }
         }
         HighlightIcon(modifier) {
-            Link(path = "https://www.linkedin.com/in/krzysztof-skorcz/") {
+            Link(path = "https://www.linkedin.com/in/krzysztof-skorcz/", Modifier.color(CSSColor.Inherit)) {
                 LinkedInIcon(modifier.size(32.px), background)
             }
         }
         HighlightIcon(modifier) {
-            Link(path = "https://www.facebook.com/krzysztof.skorcz") {
+            Link(path = "https://www.facebook.com/krzysztof.skorcz", Modifier.color(CSSColor.Inherit)) {
                 FacebookIcon(modifier.size(32.px), background)
             }
         }
