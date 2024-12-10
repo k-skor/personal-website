@@ -28,8 +28,8 @@ val ContactStyle = CssStyle {
 }
 
 val ContactContentStyle = CssStyle {
-    base { Modifier.padding(topBottom = 2.cssRem).gap(3.cssRem) }
-    Breakpoint.MD { Modifier.maxWidth(Style.Dimens.MAX_PAGE_WIDTH.px).minHeight(Style.Dimens.MAX_CONTACT_HEIGHT.px) }
+    base { Modifier.padding(1.cssRem).gap(3.cssRem) }
+    Breakpoint.MD { Modifier.maxWidth(Style.Dimens.MAX_PAGE_WIDTH.px).minHeight(Style.Dimens.MAX_CONTACT_HEIGHT.px).padding(topBottom = 2.cssRem) }
 }
 
 @Composable

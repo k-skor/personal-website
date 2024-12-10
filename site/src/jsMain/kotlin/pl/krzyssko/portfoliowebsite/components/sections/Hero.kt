@@ -34,8 +34,8 @@ val HeroStyle = CssStyle {
 }
 
 val HeroContentStyle = CssStyle {
-    base { Modifier.padding(topBottom = 3.cssRem) }
-    Breakpoint.MD { Modifier.minWidth(Style.Dimens.MAX_PAGE_WIDTH.px).minHeight(Style.Dimens.MAX_HERO_HEIGHT.px) }
+    base { Modifier.padding(1.cssRem) }
+    Breakpoint.MD { Modifier.minWidth(Style.Dimens.MAX_PAGE_WIDTH.px).minHeight(Style.Dimens.MAX_HERO_HEIGHT.px).padding(topBottom = 3.cssRem) }
 }
 
 val HeroColumnStyle = CssStyle {
@@ -135,7 +135,7 @@ fun LeftSideHero(modifier: Modifier = Modifier, breakpoint: Breakpoint, colorMod
 fun RightSideHero(modifier: Modifier = Modifier, breakpoint: Breakpoint) {
     Box(modifier.thenIf(breakpoint >= Breakpoint.MD, MovingPictureStyle.toModifier()), contentAlignment = Alignment.CenterEnd) {
         Image(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .borderRadius(Style.Dimens.BORDER_RADIUS.px)
                 .objectFit(ObjectFit.Contain),
@@ -176,10 +176,10 @@ fun Hero() {
         } else {
             Column(HeroContentStyle.toModifier()) {
                 if (showTitle.value) {
-                    LeftSideTitle(Modifier.padding(bottom = 2.cssRem).then(FadeInElementStyle.toModifier()), breakpoint)
+                    LeftSideTitle(Modifier.padding(bottom = 1.5.cssRem).then(FadeInElementStyle.toModifier()), breakpoint)
                 }
                 if (showPhoto.value) {
-                    RightSideHero(Modifier.maxWidth(10.cssRem).then(FadeInElementStyle.toModifier()), breakpoint = breakpoint)
+                    RightSideHero(Modifier.padding(bottom = 1.5.cssRem).maxWidth(10.cssRem).then(FadeInElementStyle.toModifier()), breakpoint = breakpoint)
                 }
                 LeftSideHero(breakpoint = breakpoint, colorMode = colorMode, showBottomSection = showBottomSection, showDescription = showDescription)
             }

@@ -37,8 +37,8 @@ val PortfolioStyle = CssStyle {
 }
 
 val PortfolioContentStyle = CssStyle {
-    base { Modifier.padding(topBottom = 3.cssRem).gap(2.cssRem) }
-    Breakpoint.MD { Modifier.maxWidth(Style.Dimens.MAX_PAGE_WIDTH.px) }
+    base { Modifier.padding(1.cssRem).gap(2.cssRem) }
+    Breakpoint.MD { Modifier.maxWidth(Style.Dimens.MAX_PAGE_WIDTH.px).padding(topBottom = 3.cssRem) }
 }
 
 @Composable
@@ -178,21 +178,19 @@ fun Portfolio() {
         val breakpoint = rememberBreakpoint()
         PortfolioLayout(Modifier.id("portfolio")) {
             Title(breakpoint = breakpoint)
-            Box(Modifier.fontSize(15.px).lineHeight(25.px).fillMaxWidth(clamp(20.cssRem, 65.percent, 40.cssRem))) {
+            Box(Modifier.fontSize(15.px).lineHeight(19.px).fillMaxWidth(clamp(20.cssRem, 65.percent, 40.cssRem))) {
                 SpanText("Reference projects I've worked on. The last, 4th application is the Portfolio Browser which is a reference demo app for any professional portfolio. Two birds with one stone!")
             }
 
             PortfolioCard(
                 Modifier.color(palette.font),
                 breakpoint,
-                title = "McDonald's DE",
-                link = "https://www.mcdonalds.com/de/de-de/mymcdonalds.html",
-                content = "Android version of a B2C app for a leading global fast food company in the German market (7M+ users). The business goal was to reinforce user interaction and retention through time constrained marketing campaigns and global initiatives to boost sales.\n" +
-                        "\n" +
+                title = "Global fast food company",
+                link = "https://www.google.pl/search?q=global+fast+food+company",
+                content = "Android version of a B2C app for a leading global fast food company in the German market. The business goal was to reinforce user interaction and retention through time constrained marketing campaigns and global initiatives to boost sales.\n" +
                         "Worked on a daily basis with the customer and UI team to scope and plan the development.  My role as part of a complex environment was to lead the international team of developers essentially being responsible for the app’s technical side.\n" +
-                        "\n" +
-                        "App leveraged specific architecture to deliver frequent updates to keep strict customer deadlines. Introduced new technologies to the legacy code base i.e. modularization, dependency injection, Kotlin language, unit tests. All keeping the application highly available and meeting strict quality requirements.\n",
-                icon = "mcd.webp",
+                        "App leveraged specific architecture to deliver frequent updates to keep strict customer deadlines. Introduced new technologies to the legacy code base i.e. modularization, dependency injection, Kotlin language, unit tests. All keeping the application highly available and meeting strict quality requirements.",
+                icon = "fast_food.png",
                 stack = mapOf("Java" to 80, "Kotlin" to 20)
             )
             PortfolioCard(

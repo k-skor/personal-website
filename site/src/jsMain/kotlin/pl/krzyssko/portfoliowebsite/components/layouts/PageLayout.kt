@@ -21,10 +21,6 @@ import org.jetbrains.compose.web.dom.Div
 import pl.krzyssko.portfoliowebsite.components.sections.Footer
 import pl.krzyssko.portfoliowebsite.components.sections.NavHeader
 
-val PageContentStyle = CssStyle {
-    base { Modifier.fillMaxWidth() }
-}
-
 val NavPaddingStyle = CssStyle {
     base { Modifier.fillMaxSize().padding(top = (2.5.cssRem) + (2 * 16.px)) }
     Breakpoint.MD { Modifier.padding(top = (2.5.cssRem) + (2 * 24.px)) }
