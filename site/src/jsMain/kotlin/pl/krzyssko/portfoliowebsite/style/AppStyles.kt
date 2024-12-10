@@ -1,22 +1,21 @@
 package pl.krzyssko.portfoliowebsite.style
 
-import com.varabyte.kobweb.compose.css.ScrollBehavior
-import com.varabyte.kobweb.compose.css.TextAlign
+import com.varabyte.kobweb.compose.css.*
+import com.varabyte.kobweb.compose.css.Transition
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
+import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.forms.ButtonStyle
-import com.varabyte.kobweb.silk.components.forms.ButtonVars
 import com.varabyte.kobweb.silk.components.layout.HorizontalDividerStyle
+import com.varabyte.kobweb.silk.components.navigation.LinkStyle
 import com.varabyte.kobweb.silk.init.InitSilk
 import com.varabyte.kobweb.silk.init.InitSilkContext
 import com.varabyte.kobweb.silk.init.registerStyleBase
-import com.varabyte.kobweb.silk.style.CssStyle
-import com.varabyte.kobweb.silk.style.addVariant
-import com.varabyte.kobweb.silk.style.addVariantBase
-import com.varabyte.kobweb.silk.style.base
-import com.varabyte.kobweb.silk.style.selectors.active
-import com.varabyte.kobweb.silk.style.selectors.hover
+import com.varabyte.kobweb.silk.style.*
+import com.varabyte.kobweb.silk.style.animation.Keyframes
+import com.varabyte.kobweb.silk.style.selectors.*
+import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import com.varabyte.kobweb.silk.theme.colors.palette.color
 import com.varabyte.kobweb.silk.theme.colors.palette.toPalette
 import com.varabyte.kobweb.silk.theme.modifyStyleBase
@@ -36,9 +35,10 @@ fun initSiteStyles(ctx: InitSilkContext) {
     ctx.stylesheet.registerStyleBase("body") {
         Modifier
             .fontFamily(
-                "Roboto", "Segoe UI", "Oxygen", "Ubuntu", "-apple-system", "BlinkMacSystemFont",
+                "Space Grotesk", "Roboto", "Segoe UI", "Oxygen", "Ubuntu", "-apple-system", "BlinkMacSystemFont",
                 "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "sans-serif"
             )
+            .fontWeight(400)
             .fontSize(18.px)
             .lineHeight(1.5)
     }
@@ -47,7 +47,28 @@ fun initSiteStyles(ctx: InitSilkContext) {
     ctx.theme.modifyStyleBase(HorizontalDividerStyle) {
         Modifier.fillMaxWidth()
     }
+
+    ctx.theme.modifyStyleBase(ButtonStyle) {
+        Modifier.fontFamily("Space Grotesk").fontSize(18.px)
+    }
 }
+
+//val DecoratedLinkStyle = CssStyle {
+//    base { Modifier.color(CSSColor.Inherit).fontWeight(FontWeight.Medium) }
+//    link { Modifier.fontWeight(FontWeight.Bold) }
+//    visited { Modifier.fontWeight(FontWeight.Medium) }
+//}
+
+//val regularTextModifier =
+//    Modifier
+//        .fontFamily("Space Grotesk")
+//        .fontWeight(400)
+//        .fontSize(18.px)
+//        .lineHeight(1.5)
+//
+//val RegularTextStyle = CssStyle.base {
+//    regularTextModifier
+//}
 
 val HeadlineTextStyle = CssStyle.base {
     Modifier
@@ -67,18 +88,187 @@ val CircleButtonVariant = ButtonStyle.addVariantBase {
     Modifier.padding(0.px).borderRadius(50.percent)
 }
 
-val UncoloredButtonVariant = ButtonStyle.addVariantBase {
-    Modifier.setVariable(ButtonVars.BackgroundDefaultColor, Colors.Transparent)
+val StandardFontButtonVariant = ButtonStyle.addVariant {
+    base {
+        Modifier.fontWeight(400)
+    }
 }
 
-val PrimaryButtonVariant = ButtonStyle.addVariant {
+val UncoloredButtonVariant = StandardFontButtonVariant.extendedBy {
     base {
-        Modifier.borderRadius(16.px)
+        Modifier.background(Colors.Transparent)
     }
     hover {
-        Modifier.background(colorMode.toColorPalette().brand.accent)
+        Modifier.textDecorationLine(TextDecorationLine.Underline).color(colorMode.toColorPalette().buttonFont.primary)
     }
     active {
-        Modifier.background(colorMode.toColorPalette().brand.primary)
+        Modifier.textDecorationLine(TextDecorationLine.Underline).color(colorMode.toColorPalette().buttonFont.secondary)
     }
+}
+
+val ParenthesesStyle = CssStyle {
+    base {
+        Modifier.whiteSpace(WhiteSpace.NoWrap)
+    }
+    before {
+        Modifier.content("{").textDecorationLine(TextDecorationLine.None)
+    }
+    after {
+        Modifier.content("}").textDecorationLine(TextDecorationLine.None)
+    }
+}
+
+val CodeBracketsStyle = CssStyle {
+    before {
+        Modifier.content("<").textDecorationLine(TextDecorationLine.None)
+    }
+    after {
+        Modifier.content("/>").textDecorationLine(TextDecorationLine.None)
+    }
+}
+
+val SectionArrowStyle = CssStyle {
+    before {
+        Modifier.content(">")
+    }
+    hover {
+        Modifier
+    }
+}
+
+//val ParenthesesSpanTextVariant = SpanTextStyle.addVariant {
+//    before {
+//        Modifier.content("{ ").textDecorationLine(TextDecorationLine.None)
+//    }
+//    after {
+//        Modifier.content(" }").textDecorationLine(TextDecorationLine.None)
+//    }
+//}
+
+val ColoredLinkVariant = LinkStyle.addVariant {
+    base {
+        Modifier.color(colorMode.toColorPalette().font)
+    }
+    hover {
+        Modifier.color(colorMode.toColorPalette().buttonFont.primary)
+    }
+    active {
+        Modifier.color(colorMode.toColorPalette().buttonFont.secondary)
+    }
+}
+
+val DarkExternalLinkVariant = LinkStyle.addVariant {
+    base { Modifier.color(CSSColor.Inherit).fontWeight(FontWeight.Medium) }
+    link { Modifier.fontWeight(FontWeight.Bold) }
+    visited { Modifier.fontWeight(FontWeight.Medium) }
+}
+
+val AnimatedUnderlineLinkVariant = LinkStyle.addVariant {
+    base {
+        Modifier.transition(Transition.of("text-decoration-color", 300.ms)).styleModifier {
+            property("text-decoration", "underline ${Colors.Transparent}")
+        }
+    }
+    hover {
+        Modifier.styleModifier {
+            property("text-decoration-color", CSSColor.Inherit)
+        }
+    }
+}
+
+val AnimatedUnderlineButtonVariant = ButtonStyle.addVariant {
+    base {
+        Modifier.transition(Transition.of("text-decoration-color", 300.ms)).styleModifier {
+            property("text-decoration", "underline ${Colors.Transparent}")
+        }
+    }
+    hover {
+        Modifier.styleModifier {
+            property("text-decoration-color", CSSColor.Inherit)
+        }
+    }
+}
+
+val FilledButtonVariant = StandardFontButtonVariant.extendedBy {
+    val palette = colorMode.opposite.toColorPalette()
+    base {
+        val backgroundColor = when (colorMode) {
+            ColorMode.LIGHT -> palette.backgroundPrimary
+            ColorMode.DARK -> palette.backgroundSecondary
+        }
+        Modifier.borderRadius(Style.Dimens.BORDER_RADIUS.px).background(backgroundColor).color(palette.font)
+    }
+    hover {
+        Modifier.background(palette.backgroundLighter)
+    }
+    active {
+        Modifier.background(palette.backgroundDim)
+    }
+}
+
+val SectionTitleParentStyle = CssStyle {
+    cssRule(":hover .fading-section-arrow") {
+        Modifier.opacity(0)
+    }
+    cssRule(":hover .moving-section-title") {
+        Modifier
+            .transform { translateX((-1).em) }
+            .transformOrigin(TransformOrigin.Right)
+    }
+}
+
+val FadingSectionArrowStyle = CssStyle.base {
+    Modifier
+        .display(DisplayStyle.InlineBlock)
+        .width(1.em)
+        .opacity(1)
+        .transition(Transition.of("opacity", 0.5.s))
+}
+
+val MovingSectionTitleStyle = CssStyle.base {
+    Modifier
+        .display(DisplayStyle.InlineBlock)
+        .transition(Transition.of("all", 0.5.s))
+}
+
+val FadeInAnim = Keyframes {
+    from {
+        Modifier.opacity(0)
+    }
+
+    to {
+        Modifier.opacity(1)
+    }
+}
+
+val FadeInColorAnim = Keyframes {
+    from {
+        Modifier.color(Colors.Transparent)
+    }
+
+    to {
+        Modifier.color(CSSColor.Inherit)
+    }
+}
+
+val FadeInElementStyle = CssStyle.base {
+    Modifier.animation(
+        FadeInAnim.toAnimation(
+            duration = 500.ms,
+            timingFunction = AnimationTimingFunction.EaseIn,
+            direction = AnimationDirection.Normal,
+            fillMode = AnimationFillMode.Forwards
+        )
+    )
+}
+
+val FadeInColorElementStyle = CssStyle.base {
+    Modifier.animation(
+        FadeInColorAnim.toAnimation(
+            duration = 500.ms,
+            timingFunction = AnimationTimingFunction.EaseIn,
+            direction = AnimationDirection.Normal,
+            fillMode = AnimationFillMode.Forwards
+        )
+    )
 }

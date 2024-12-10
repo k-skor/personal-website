@@ -17,28 +17,37 @@ import com.varabyte.kobweb.silk.style.vars.color.ColorVar
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import org.jetbrains.compose.web.css.cssRem
 import org.jetbrains.compose.web.css.percent
+import org.jetbrains.compose.web.css.px
 import org.jetbrains.compose.web.dom.Span
 import pl.krzyssko.portfoliowebsite.style.toColorPalette
 
 val FooterStyle = CssStyle.base {
     Modifier
-        .backgroundColor(colorMode.toColorPalette().nearBackground)
+        .backgroundColor(ColorMode.DARK.toColorPalette().backgroundDim)
+        .color(ColorMode.DARK.toColorPalette().font)
         .padding(topBottom = 1.5.cssRem, leftRight = 10.percent)
 }
 
 @Composable
 fun Footer(modifier: Modifier = Modifier) {
     Box(FooterStyle.toModifier().then(modifier), contentAlignment = Alignment.Center) {
-        Span(Modifier.textAlign(TextAlign.Center).toAttrs()) {
+        Span(Modifier.fontSize(14.px).textAlign(TextAlign.Center).toAttrs()) {
             val sitePalette = ColorMode.current.toColorPalette()
-            SpanText("Built with ")
+            SpanText("(C) 2024", Modifier.padding(right = 0.5.cssRem))
+            SpanText("designed by ")
+            Link(
+                "https://www.instagram.com/_buymyshelf/",
+                "_buymyshelf",
+                Modifier.setVariable(ColorVar, sitePalette.brand.accent),
+                variant = UncoloredLinkVariant
+            )
+            SpanText("built with ", Modifier.padding(left = 0.5.cssRem))
             Link(
                 "https://github.com/varabyte/kobweb",
                 "Kobweb",
-                Modifier.setVariable(ColorVar, sitePalette.brand.primary),
+                Modifier.setVariable(ColorVar, sitePalette.brand.accent),
                 variant = UncoloredLinkVariant
             )
-            SpanText(" 🕸️")
         }
     }
 }
