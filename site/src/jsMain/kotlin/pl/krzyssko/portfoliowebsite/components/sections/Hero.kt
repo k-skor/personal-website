@@ -26,6 +26,7 @@ import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Text
 import pl.krzyssko.portfoliowebsite.components.widgets.SocialIcons
+import pl.krzyssko.portfoliowebsite.localized
 import pl.krzyssko.portfoliowebsite.style.*
 import kotlin.time.Duration.Companion.milliseconds
 
@@ -75,7 +76,7 @@ val MovingPictureStyle = CssStyle {
 @Composable
 fun LeftSideTitle(modifier: Modifier = Modifier, breakpoint: Breakpoint) {
     Div(HeadlineTextStyle.toModifier().then(modifier).thenIf(breakpoint >= Breakpoint.MD, MovingHeadlineStyle.toModifier()).toAttrs()) {
-        SpanText("Software Engineer ready for new challenges")
+        SpanText("Software Engineer ready for new challenges".localized())
     }
 }
 
@@ -85,18 +86,25 @@ fun LeftSideHero(modifier: Modifier = Modifier, breakpoint: Breakpoint, colorMod
         modifier.fillMaxHeight(),
         verticalArrangement = Arrangement.SpaceBetween
     ) {
+        //if ("ab\ncd" != "ab\ncd".localized()) {
+        //    console.log("WRONG!")
+        //}
+        //console.log("Test 1=\n${"ab\\ncd".encodeToByteArray().joinToString("-")}")
+        //console.log("Test 2=\n${"ab\\ncd".localized().encodeToByteArray().joinToString("-")}")
+        //console.log("Test 1=\n${"Years of\nexperience".encodeToByteArray().joinToString()}")
+        //console.log("Test 2=\n${"Years of\nexperience".localized().encodeToByteArray()}")
         Column(HeroColumnStyle.toModifier()) {
             Div(Modifier.fontSize(15.px).lineHeight(25.px).color(Colors.Transparent).thenIf(showDescription.value, FadeInColorElementStyle.toModifier()).toAttrs()) {
-                SpanText("Krzysztof Skórcz is a Software Engineer experienced in many different areas of software engineering.\nHis primary but not limited to expertise is ", Modifier.whiteSpace(WhiteSpace.PreLine))
-                SpanText("mobile applications", modifier = Modifier.textDecorationLine(Underline))
-                Text(". He worked with different languages, platforms, cloud providers (mainly Azure) and technologies. Krzysztof's secondary focus area is ")
-                SpanText("IoT and Edge Computing", modifier = Modifier.textDecorationLine(Underline))
-                Text(". He participated in numerous projects in various roles building, designing and presenting cutting-edge software as a senior or leader. Constantly improving his skill set, recently expanding it on Machine Learning.")
+                SpanText("Krzysztof Skórcz is a Software Engineer experienced in many different areas of software engineering.His primary but not limited to expertise is ".localized(), Modifier.whiteSpace(WhiteSpace.PreLine))
+                SpanText("mobile applications".localized(), modifier = Modifier.textDecorationLine(Underline))
+                Text(". He worked with different languages, platforms, cloud providers (mainly Azure) and technologies. Krzysztof's secondary focus area is ".localized())
+                SpanText("IoT and Edge Computing".localized(), modifier = Modifier.textDecorationLine(Underline))
+                Text(". He participated in numerous projects in various roles building, designing and presenting cutting-edge software as a senior or leader. Constantly improving his skill set, recently expanding it on Machine Learning.".localized())
             }
             Column(Modifier.gap(18.px).fillMaxWidth().color(Colors.Transparent).thenIf(showBottomSection.value, FadeInColorElementStyle.toModifier())) {
                 Row(HeroRowStyle.toModifier()) {
                     Box(Modifier.fillMaxWidth(40.percent).align(Alignment.CenterVertically)) {
-                        SpanText("Programming\nLanguages", modifier = Modifier.fontSize(12.px).whiteSpace(WhiteSpace.PreLine))
+                        SpanText("Programming\nLanguages".localized(), modifier = Modifier.fontSize(12.px).whiteSpace(WhiteSpace.PreLine))
                     }
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                         val languages = listOf("Kotlin", "Java", "TypeScript", "C++")
@@ -107,17 +115,17 @@ fun LeftSideHero(modifier: Modifier = Modifier, breakpoint: Breakpoint, colorMod
                 }
                 Row(HeroRowStyle.toModifier()) {
                     Box(Modifier.fillMaxWidth(40.percent).align(Alignment.CenterVertically)) {
-                        SpanText("Years of\nexperience", modifier = Modifier.fontSize(12.px).whiteSpace(WhiteSpace.PreLine))
+                        SpanText("Years of\nexperience".localized(), modifier = Modifier.fontSize(12.px).whiteSpace(WhiteSpace.PreLine))
                     }
-                    SpanText("over 10 years of employment", modifier = Modifier.fillMaxWidth())
+                    SpanText("over 10 years of employment".localized(), modifier = Modifier.fillMaxWidth())
                 }
                 Row(HeroRowStyle.toModifier()) {
                     Box(Modifier.fillMaxWidth(40.percent).align(Alignment.CenterVertically)) {
-                        SpanText("Location", modifier = Modifier.fontSize(12.px))
+                        SpanText("Location".localized(), modifier = Modifier.fontSize(12.px))
                     }
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                        SpanText("Poznań, Poland")
-                        SpanText("open to remote work")
+                        SpanText("Poznań, Poland".localized())
+                        SpanText("open to remote work".localized())
                     }
                 }
             }

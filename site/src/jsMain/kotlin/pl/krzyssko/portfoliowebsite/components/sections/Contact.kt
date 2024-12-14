@@ -20,6 +20,7 @@ import pl.krzyssko.portfoliowebsite.components.widgets.ArrowLinkIcon
 import pl.krzyssko.portfoliowebsite.components.widgets.ExternalLinkButton
 import pl.krzyssko.portfoliowebsite.components.widgets.MovingSectionTitle
 import pl.krzyssko.portfoliowebsite.components.widgets.SocialIcons
+import pl.krzyssko.portfoliowebsite.localized
 import pl.krzyssko.portfoliowebsite.style.*
 
 val ContactStyle = CssStyle {
@@ -35,7 +36,7 @@ val ContactContentStyle = CssStyle {
 @Composable
 private fun Title(modifier: Modifier = Modifier, breakpoint: Breakpoint) {
     Div(HeadlineTextStyle.toModifier().then(modifier).id("contact").toAttrs()) {
-        MovingSectionTitle(breakpoint = breakpoint, decorator = ">", title = "Contact me")
+        MovingSectionTitle(breakpoint = breakpoint, decorator = ">", title = "Contact me".localized())
     }
 }
 
@@ -44,13 +45,13 @@ fun ContactInfo(modifier: Modifier = Modifier, breakpoint: Breakpoint) {
     Column(modifier.fillMaxWidth(if (breakpoint < Breakpoint.MD) 100.percent else 50.percent).gap(1.cssRem), verticalArrangement = Arrangement.SpaceBetween) {
         Row(Modifier.fillMaxWidth().gap(22.px)) {
             Box(Modifier.fillMaxWidth(40.percent).align(Alignment.CenterVertically)) {
-                SpanText("e-mail", modifier = Modifier.fontSize(12.px).whiteSpace(WhiteSpace.NoWrap))
+                SpanText("e-mail".localized(), modifier = Modifier.fontSize(12.px).whiteSpace(WhiteSpace.NoWrap))
             }
             Link(path = "mailto:krzy.skorcz@gmail.com", text = "krzy.skorcz@gmail.com", modifier = Modifier.fontWeight(400), variant = DarkExternalLinkVariant)
         }
         Row(Modifier.fillMaxWidth().gap(22.px)) {
             Box(Modifier.fillMaxWidth(40.percent).align(Alignment.CenterVertically)) {
-                SpanText("phone number", modifier = Modifier.fontSize(12.px).whiteSpace(WhiteSpace.PreLine))
+                SpanText("phone number".localized(), modifier = Modifier.fontSize(12.px).whiteSpace(WhiteSpace.PreLine))
             }
             Link(path = "tel:+48886331190", text = "+48 886 331 190", modifier = Modifier.fontWeight(400), variant = DarkExternalLinkVariant)
         }
@@ -91,7 +92,7 @@ fun Contact() {
     Box(ContactStyle.toModifier().then(FadeInElementStyle.toModifier()), contentAlignment = Alignment.TopCenter) {
         Column(ContactContentStyle.toModifier().fillMaxSize(), verticalArrangement = Arrangement.SpaceBetween) {
             Title(breakpoint = breakpoint)
-            SpanText("I'm willing to cooperate in form of freelance work for a single project or job but I'm also open to full-time job offers. Let's stay in touch! (PL or EN)", Modifier.fontSize(15.px).lineHeight(1.25))
+            SpanText("I'm willing to cooperate in form of freelance work for a single project or job but I'm also open to full-time job offers. Let's stay in touch! (PL or EN)".localized(), Modifier.fontSize(15.px).lineHeight(1.25))
 
             ContactInfo(breakpoint = breakpoint)
             ContactLinks(Modifier.color(colorMode.toColorPalette().font), colorMode, breakpoint)

@@ -11,13 +11,14 @@ import pl.krzyssko.portfoliowebsite.components.layouts.PageLayout
 import pl.krzyssko.portfoliowebsite.components.sections.Contact
 import pl.krzyssko.portfoliowebsite.components.sections.Hero
 import pl.krzyssko.portfoliowebsite.components.sections.Portfolio
+import pl.krzyssko.portfoliowebsite.localized
 import kotlin.time.Duration.Companion.seconds
 
 @Page
 @Composable
 fun HomePage() {
 
-    PageLayout("Krzysztof Skórcz's professional page") {
+    PageLayout("Krzysztof Skórcz - mobile applications".localized()) {
         val readyToRender = mutableStateOf(false)
         Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
             Hero()

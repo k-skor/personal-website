@@ -31,9 +31,12 @@ import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.Span
+import pl.krzyssko.portfoliowebsite.Language
+import pl.krzyssko.portfoliowebsite.Locale
 import pl.krzyssko.portfoliowebsite.components.widgets.CloseIcon
 import pl.krzyssko.portfoliowebsite.components.widgets.HamburgerIcon
 import pl.krzyssko.portfoliowebsite.components.widgets.IconButton
+import pl.krzyssko.portfoliowebsite.localized
 import pl.krzyssko.portfoliowebsite.style.*
 
 val NavHeaderStyle = CssStyle {
@@ -63,8 +66,46 @@ private fun NavLink(path: String, text: String, modifier: Modifier = Modifier, v
 
 @Composable
 private fun MenuItems(modifier: Modifier = Modifier) {
-    NavLink("#portfolio", "portfolio", modifier)
-    NavLink("#contact", "contact", modifier)
+    NavLink("#portfolio", "portfolio".localized(), modifier)
+    NavLink("#contact", "contact".localized(), modifier)
+}
+
+@Composable
+private fun LanguageButton(modifier: Modifier = Modifier) {
+    var language by remember { mutableStateOf(Locale.initialLanguage) }
+    LaunchedEffect(language) {
+        Locale.init(language)
+    }
+    Div(ParenthesesStyle.toAttrs()) {
+        Button(
+            onClick = {
+                language = when (language) {
+                    Language.PL -> Language.EN
+                    Language.EN -> Language.PL
+                }
+            }, variant = UncoloredButtonVariant.then(
+                AnimatedUnderlineButtonVariant
+            ), modifier = modifier.verticalAlign(
+                VerticalAlign.Baseline
+            ).padding(leftRight = 0.5.cssRem)
+        ) {
+            SpanText(
+                (when (language) {
+                    Language.PL -> Language.EN
+                    Language.EN -> Language.PL
+                }).toString().lowercase()
+            )
+        }
+    }
+    Tooltip(
+        ElementTarget.PreviousSibling,
+        "Switch to PL or EN".localized(),
+        modifier = Modifier.padding(leftRight = 4.px).fontSize(14.px).zIndex(3),
+        placement = PopupPlacement.BottomRight,
+        showDelayMs = 500,
+        hideDelayMs = 500,
+        keepOpenStrategy = KeepPopupOpenStrategy.onHover()
+    )
 }
 
 @Composable
@@ -83,7 +124,7 @@ private fun ColorModeButton(modifier: Modifier = Modifier) {
     }
     Tooltip(
         ElementTarget.PreviousSibling,
-        "Toggle color mode",
+        "Toggle color mode".localized(),
         modifier = Modifier.padding(leftRight = 4.px).fontSize(14.px).zIndex(3),
         placement = PopupPlacement.BottomRight,
         showDelayMs = 500,
@@ -106,7 +147,7 @@ private fun DownloadCvButton(modifier: Modifier = Modifier, colorMode: ColorMode
             Row(verticalAlignment = Alignment.CenterVertically) {
                 val buttonModifier = modifier.color(colorMode.toOppositePalette().font)
                 DownloadIcon(buttonModifier)
-                SpanText("download CV", buttonModifier.padding(left = 0.5.em))
+                SpanText("download CV".localized(), buttonModifier.padding(left = 0.5.em))
             }
         }
     }
@@ -160,6 +201,7 @@ fun NavHeader(modifier: Modifier = Modifier, colorMode: ColorMode) {
         Row(Modifier.gap(40.px).displayIfAtLeast(Breakpoint.MD), verticalAlignment = Alignment.CenterVertically) {
             ColorModeButton()
             MenuItems()
+            LanguageButton()
             DownloadCvButton(colorMode = colorMode)
         }
 
@@ -220,6 +262,7 @@ private fun SideMenu(menuState: SideMenuState, colorMode: ColorMode, close: () -
                 Column(Modifier.padding(top = 3.cssRem).gap(3.cssRem).fontSize(14.px), horizontalAlignment = Alignment.End) {
                     ColorModeButton(Modifier.fontSize(14.px))
                     MenuItems()
+                    LanguageButton()
                     DownloadCvButton(Modifier.fontSize(14.px), colorMode = colorMode)
                 }
             }
