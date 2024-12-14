@@ -14,6 +14,8 @@ version = "1.0-SNAPSHOT"
 kobweb {
     app {
         index {
+            val configDomainName = "krzysztofskorcz.pl"
+
             description.set("Powered by Kobweb")
             head.add {
                 link(rel = "preconnect", href = "https://fonts.googleapis.com")
@@ -22,6 +24,24 @@ kobweb {
                     href = "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap",
                     rel = "stylesheet"
                 )
+                link(
+                    rel = "alternate",
+                    href = "https://${configDomainName}/pl"
+                ) {
+                    hrefLang = "pl"
+                }
+                link(
+                    rel = "alternate",
+                    href = "https://${configDomainName}/en"
+                ) {
+                    hrefLang = "en"
+                }
+                link(
+                    rel = "alternate",
+                    href = "https://${configDomainName}/"
+                ) {
+                    hrefLang = "x-default"
+                }
             }
         }
     }

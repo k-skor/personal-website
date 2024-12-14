@@ -41,7 +41,8 @@ object Locale {
     val translation: Map<String, String>?
         get() = translations[current.value]
 
-    suspend fun init(language: Language) {
+    suspend fun init() {
+        val language = initialLanguage
         if (!translations.contains(language)) {
             translations[language] = fetchLanguage(language)
         }

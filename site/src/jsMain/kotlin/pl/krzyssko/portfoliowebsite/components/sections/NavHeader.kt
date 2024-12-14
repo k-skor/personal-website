@@ -13,6 +13,7 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.toAttrs
+import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.navigation.OpenLinkStrategy
 import com.varabyte.kobweb.silk.components.forms.Button
 import com.varabyte.kobweb.silk.components.icons.DownloadIcon
@@ -72,17 +73,16 @@ private fun MenuItems(modifier: Modifier = Modifier) {
 
 @Composable
 private fun LanguageButton(modifier: Modifier = Modifier) {
-    var language by remember { mutableStateOf(Locale.initialLanguage) }
-    LaunchedEffect(language) {
-        Locale.init(language)
-    }
+    val language by remember { mutableStateOf(Locale.initialLanguage) }
+    val ctx = rememberPageContext()
     Div(ParenthesesStyle.toAttrs()) {
         Button(
             onClick = {
-                language = when (language) {
-                    Language.PL -> Language.EN
-                    Language.EN -> Language.PL
+                when (language) {
+                    Language.PL -> ctx.router.navigateTo("/en")
+                    Language.EN -> ctx.router.navigateTo("/pl")
                 }
+
             }, variant = UncoloredButtonVariant.then(
                 AnimatedUnderlineButtonVariant
             ), modifier = modifier.verticalAlign(
