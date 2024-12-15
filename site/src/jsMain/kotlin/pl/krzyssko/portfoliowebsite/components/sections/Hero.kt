@@ -147,7 +147,7 @@ fun RightSideHero(modifier: Modifier = Modifier, breakpoint: Breakpoint) {
                 .fillMaxWidth()
                 .borderRadius(Style.Dimens.BORDER_RADIUS.px)
                 .objectFit(ObjectFit.Contain),
-            src = "Krzysztof_Skórcz_portret.jpg"
+            src = "/Krzysztof_Skórcz_portret.jpg"
         )
     }
 }

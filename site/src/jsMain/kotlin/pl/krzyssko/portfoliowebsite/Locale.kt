@@ -12,7 +12,7 @@ enum class Language {
 
 suspend fun fetchLanguage(lang: Language): Map<String, String>? {
     window.http.logOnError = false
-    val response = window.http.tryGet("strings_${lang.name.lowercase()}.txt")?.decodeToString() ?: return null
+    val response = window.http.tryGet("/strings_${lang.name.lowercase()}.txt")?.decodeToString() ?: return null
     val translation = mutableMapOf<String, String>()
     for (line in response.lines()) {
         if (line.isEmpty() || line.trim().first() == '#') continue

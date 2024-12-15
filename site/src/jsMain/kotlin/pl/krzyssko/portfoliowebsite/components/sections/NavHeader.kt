@@ -13,7 +13,6 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.toAttrs
-import com.varabyte.kobweb.core.rememberPageContext
 import com.varabyte.kobweb.navigation.OpenLinkStrategy
 import com.varabyte.kobweb.silk.components.forms.Button
 import com.varabyte.kobweb.silk.components.icons.DownloadIcon
@@ -74,28 +73,16 @@ private fun MenuItems(modifier: Modifier = Modifier) {
 @Composable
 private fun LanguageButton(modifier: Modifier = Modifier) {
     val language by remember { mutableStateOf(Locale.initialLanguage) }
-    val ctx = rememberPageContext()
+    val link = when (language) {
+        Language.PL -> "/en/"
+        Language.EN -> "/pl/"
+    }
+    val label = (when (language) {
+        Language.PL -> Language.EN
+        Language.EN -> Language.PL
+    }).toString().lowercase()
     Div(ParenthesesStyle.toAttrs()) {
-        Button(
-            onClick = {
-                when (language) {
-                    Language.PL -> ctx.router.navigateTo("/en")
-                    Language.EN -> ctx.router.navigateTo("/pl")
-                }
-
-            }, variant = UncoloredButtonVariant.then(
-                AnimatedUnderlineButtonVariant
-            ), modifier = modifier.verticalAlign(
-                VerticalAlign.Baseline
-            ).padding(leftRight = 0.5.cssRem)
-        ) {
-            SpanText(
-                (when (language) {
-                    Language.PL -> Language.EN
-                    Language.EN -> Language.PL
-                }).toString().lowercase()
-            )
-        }
+        NavLink(link, label, modifier.padding(leftRight = 0.5.cssRem))
     }
     Tooltip(
         ElementTarget.PreviousSibling,
@@ -143,7 +130,7 @@ private fun HomeButton(modifier: Modifier = Modifier) {
 @Composable
 private fun DownloadCvButton(modifier: Modifier = Modifier, colorMode: ColorMode) {
     Button(onClick = { }, variant = FilledButtonVariant) {
-        Link("Krzysztof_Skórcz_-CV.pdf", openInternalLinksStrategy = OpenLinkStrategy.IN_NEW_TAB, variant = UndecoratedLinkVariant) {
+        Link("/Krzysztof_Skórcz_-CV.pdf", openInternalLinksStrategy = OpenLinkStrategy.IN_NEW_TAB, variant = UndecoratedLinkVariant) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 val buttonModifier = modifier.color(colorMode.toOppositePalette().font)
                 DownloadIcon(buttonModifier)

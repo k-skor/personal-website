@@ -191,7 +191,7 @@ fun Portfolio() {
                 content = ("Android version of a B2C app for a leading global fast food company in the German market. The business goal was to reinforce user interaction and retention through time constrained marketing campaigns and global initiatives to boost sales.\n" +
                         "Worked on a daily basis with the customer and UI team to scope and plan the development. My role as part of a complex environment was to lead the international team of developers essentially being responsible for the app’s technical side.\n" +
                         "App leveraged specific architecture to deliver frequent updates to keep strict customer deadlines. Introduced new technologies to the legacy code base i.e. modularization, Dependency Injection, Kotlin language, unit tests. All keeping the application highly available and meeting strict quality requirements.").localized(),
-                icon = "fast_food.png",
+                icon = "/fast_food.png",
                 stack = mapOf("Java" to 80, "Kotlin" to 20)
             )
             PortfolioCard(
@@ -200,7 +200,7 @@ fun Portfolio() {
                 title = "Inverto SatPal™",
                 link = "https://www.inverto.tv/what-is-satpal",
                 content = "Application for controlling the remote device in order to allow installers to correctly install and configure satellite installation. It used BLE connectivity, embedded Android features like camera, position, internationalization. As the result the app can export reports of installation process in standard text formats: PDF, XML, JSON. It is a multi-flavor app to support external OEM sales. As a side features it includes also: OTA updates, transponders DB updates, QAM signal and FFT graph in real time.".localized(),
-                icon = "satpal.webp",
+                icon = "/satpal.webp",
                 stack = mapOf("Java" to 80, "C++" to 20)
             )
             PortfolioCard(
@@ -209,7 +209,7 @@ fun Portfolio() {
                 title = "Mersive Smart",
                 link = "https://www.mersive.com/product/mersive-smart/",
                 content = "Android TV app for remote sharing content to a Smart TV device like TV or stick. Uses WebRTC to video and audio transmission. Aimed for enterprise and education industry.".localized(),
-                icon = "mersive.jpg",
+                icon = "/mersive.jpg",
                 stack = mapOf("TypeScript" to 100)
             )
             Column(Modifier.gap(1.cssRem)) {
@@ -221,7 +221,7 @@ fun Portfolio() {
                 title = "Portfolio Browser",
                 link = "https://github.com/k-skor/portfolio-browser",
                 content = "Demo app presenting a projects portfolio.".localized(),
-                icon = "placeholder.jpg",
+                icon = "/placeholder.jpg",
                 stack = mapOf("Kotlin" to 55, "Java" to 25, "TypeScript" to 20, "C++" to 10)
             )
         }

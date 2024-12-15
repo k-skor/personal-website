@@ -1,7 +1,5 @@
 import com.varabyte.kobweb.gradle.application.util.configAsKobwebApplication
 import kotlinx.html.link
-import kotlinx.html.s
-import kotlinx.html.script
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -28,13 +26,13 @@ kobweb {
                 )
                 link(
                     rel = "alternate",
-                    href = "https://${configDomainName}/pl"
+                    href = "https://${configDomainName}/pl/"
                 ) {
                     hrefLang = "pl"
                 }
                 link(
                     rel = "alternate",
-                    href = "https://${configDomainName}/en"
+                    href = "https://${configDomainName}/en/"
                 ) {
                     hrefLang = "en"
                 }

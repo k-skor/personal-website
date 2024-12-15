@@ -17,29 +17,15 @@ import pl.krzyssko.portfoliowebsite.components.sections.Portfolio
 import pl.krzyssko.portfoliowebsite.localized
 import kotlin.time.Duration.Companion.seconds
 
-@Page("/pl")
-@Composable
-fun IndexPl() {
-    Locale.initialLanguage = Language.PL
-    HomePage()
-}
-
-@Page("/en")
-@Composable
-fun IndexEn() {
-    Locale.initialLanguage = Language.EN
-    HomePage()
-}
-
 @Page("/index")
 @Composable
 fun Index() {
     val ctx = rememberPageContext()
     if (Locale.initialLanguage == Language.EN) {
-        ctx.router.navigateTo("/en")
+        ctx.router.navigateTo("/en/")
     }
     if (Locale.initialLanguage == Language.PL) {
-        ctx.router.navigateTo("/pl")
+        ctx.router.navigateTo("/pl/")
     }
 }
 
