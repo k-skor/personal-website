@@ -1,5 +1,6 @@
 import com.varabyte.kobweb.gradle.application.util.configAsKobwebApplication
 import kotlinx.html.link
+import kotlinx.html.script
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -15,6 +16,7 @@ kobweb {
     app {
         index {
             val configDomainName = "krzysztofskorcz.pl"
+            val configGtag = "AW-11497412052"
 
             description.set("Powered by Kobweb")
             head.add {
@@ -42,6 +44,11 @@ kobweb {
                 ) {
                     hrefLang = "x-default"
                 }
+                //<!-- Google tag (gtag.js) -->
+                script(src = "https://www.googletagmanager.com/gtag/js?id=${configGtag}") {
+                    async = true
+                }
+                script(src = "/gtag.js") { }
             }
         }
     }
