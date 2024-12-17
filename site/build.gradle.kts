@@ -16,7 +16,7 @@ kobweb {
         index {
             val configDomainName = "krzysztofskorcz.pl"
 
-            description.set("Powered by Kobweb")
+            description.set("Aplikacje mobilne - Krzysztof Skórcz - Tworzenie oprogramowania - Android, iOS")
             head.add {
                 link(rel = "preconnect", href = "https://fonts.googleapis.com")
                 link(rel = "preconnect", href = "https://fonts.gstatic.com") { attributes["crossorigin"] = "" }

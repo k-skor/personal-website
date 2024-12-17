@@ -18,12 +18,14 @@ import com.varabyte.kobweb.silk.components.text.SpanText
 import com.varabyte.kobweb.silk.style.CssStyle
 import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
 import com.varabyte.kobweb.silk.style.selectors.hover
+import com.varabyte.kobweb.silk.style.toAttrs
 import com.varabyte.kobweb.silk.style.toModifier
 import com.varabyte.kobweb.silk.theme.breakpoint.rememberBreakpoint
 import com.varabyte.kobweb.silk.theme.colors.ColorMode
 import kotlinx.coroutines.delay
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Text
 import pl.krzyssko.portfoliowebsite.components.widgets.SocialIcons
 import pl.krzyssko.portfoliowebsite.localized
@@ -75,8 +77,10 @@ val MovingPictureStyle = CssStyle {
 
 @Composable
 fun LeftSideTitle(modifier: Modifier = Modifier, breakpoint: Breakpoint) {
-    Div(HeadlineTextStyle.toModifier().then(modifier).thenIf(breakpoint >= Breakpoint.MD, MovingHeadlineStyle.toModifier()).toAttrs()) {
-        SpanText("Software Engineer ready for new challenges".localized())
+    Div(modifier.thenIf(breakpoint >= Breakpoint.MD, MovingHeadlineStyle.toModifier()).toAttrs()) {
+        H1(HeadlineTextStyle.toAttrs()) {
+            SpanText("Software Engineer ready for new challenges".localized())
+        }
     }
 }
 

@@ -72,7 +72,9 @@ fun initSiteStyles(ctx: InitSilkContext) {
 
 val HeadlineTextStyle = CssStyle.base {
     Modifier
+        .margin(0.px)
         .fontSize(3.cssRem)
+        .fontWeight(FontWeight.Normal)
         .textAlign(TextAlign.Start)
         .lineHeight(1.2) //1.5x doesn't look as good on very large text
 }
