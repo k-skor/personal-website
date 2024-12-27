@@ -29,6 +29,7 @@ import org.jetbrains.compose.web.dom.Div
 import pl.krzyssko.portfoliowebsite.components.widgets.ArrowLinkIcon
 import pl.krzyssko.portfoliowebsite.components.widgets.ExternalLinkButton
 import pl.krzyssko.portfoliowebsite.components.widgets.MovingSectionTitle
+import pl.krzyssko.portfoliowebsite.localized
 import pl.krzyssko.portfoliowebsite.style.*
 
 val PortfolioStyle = CssStyle {
@@ -44,7 +45,7 @@ val PortfolioContentStyle = CssStyle {
 @Composable
 private fun Title(modifier: Modifier = Modifier, breakpoint: Breakpoint) {
     Div(HeadlineTextStyle.toModifier().then(modifier).toAttrs()) {
-        MovingSectionTitle(modifier, breakpoint, ">", "Portfolio is my advantage")
+        MovingSectionTitle(modifier, breakpoint, ">", "Portfolio is my advantage".localized())
     }
 }
 
@@ -179,18 +180,18 @@ fun Portfolio() {
         PortfolioLayout(Modifier.id("portfolio")) {
             Title(breakpoint = breakpoint)
             Box(Modifier.fontSize(15.px).lineHeight(19.px).fillMaxWidth(clamp(20.cssRem, 65.percent, 40.cssRem))) {
-                SpanText("Reference projects I've worked on. The last, 4th application is the Portfolio Browser which is a reference demo app for any professional portfolio. Two birds with one stone!")
+                SpanText("Mobile applications I've worked on. The last, 4th application is the Portfolio Browser which is a reference demo app for any professional portfolio. Two birds with one stone!".localized())
             }
 
             PortfolioCard(
                 Modifier.color(palette.font),
                 breakpoint,
-                title = "Global fast food company",
+                title = "Global fast food company".localized(),
                 link = "https://www.google.pl/search?q=global+fast+food+company",
-                content = "Android version of a B2C app for a leading global fast food company in the German market. The business goal was to reinforce user interaction and retention through time constrained marketing campaigns and global initiatives to boost sales.\n" +
-                        "Worked on a daily basis with the customer and UI team to scope and plan the development.  My role as part of a complex environment was to lead the international team of developers essentially being responsible for the app’s technical side.\n" +
-                        "App leveraged specific architecture to deliver frequent updates to keep strict customer deadlines. Introduced new technologies to the legacy code base i.e. modularization, dependency injection, Kotlin language, unit tests. All keeping the application highly available and meeting strict quality requirements.",
-                icon = "fast_food.png",
+                content = ("Android version of a B2C app for a leading global fast food company in the German market. The business goal was to reinforce user interaction and retention through time constrained marketing campaigns and global initiatives to boost sales.\n" +
+                        "Worked on a daily basis with the customer and UI team to scope and plan the development. My role as part of a complex environment was to lead the international team of developers essentially being responsible for the app’s technical side.\n" +
+                        "App leveraged specific architecture to deliver frequent updates to keep strict customer deadlines. Introduced new technologies to the legacy code base i.e. modularization, Dependency Injection, Kotlin language, unit tests. All keeping the application highly available and meeting strict quality requirements.").localized(),
+                icon = "/fast_food.png",
                 stack = mapOf("Java" to 80, "Kotlin" to 20)
             )
             PortfolioCard(
@@ -198,8 +199,8 @@ fun Portfolio() {
                 breakpoint,
                 title = "Inverto SatPal™",
                 link = "https://www.inverto.tv/what-is-satpal",
-                content = "Application for controlling the core device in order to allow installers to correctly install and configure satellite installation. It used BLE connectivity, embedded Android features like camera, localization, multi-language support. As the result the app can export reports in standard text formats: PDF, XML, JSON. It is a multi-flavor app to support external OEM sales. As a side features it includes also: OTA updates, transponders DB updates, live QAM and FFT graph.\n",
-                icon = "satpal.webp",
+                content = "Application for controlling the remote device in order to allow installers to correctly install and configure satellite installation. It used BLE connectivity, embedded Android features like camera, position, internationalization. As the result the app can export reports of installation process in standard text formats: PDF, XML, JSON. It is a multi-flavor app to support external OEM sales. As a side features it includes also: OTA updates, transponders DB updates, QAM signal and FFT graph in real time.".localized(),
+                icon = "/satpal.webp",
                 stack = mapOf("Java" to 80, "C++" to 20)
             )
             PortfolioCard(
@@ -207,20 +208,20 @@ fun Portfolio() {
                 breakpoint,
                 title = "Mersive Smart",
                 link = "https://www.mersive.com/product/mersive-smart/",
-                content = "Android TV app for remote sharing content to a Smart TV device like TV or stick. Uses WebRTC to video and audio transmission. Aimed for enterprise and education.\n",
-                icon = "mersive.jpg",
+                content = "Android TV app for remote sharing content to a Smart TV device like TV or stick. Uses WebRTC to video and audio transmission. Aimed for enterprise and education industry.".localized(),
+                icon = "/mersive.jpg",
                 stack = mapOf("TypeScript" to 100)
             )
             Column(Modifier.gap(1.cssRem)) {
-                MovingSectionTitle(Modifier.fontSize(22.px), breakpoint, ">", "Portfolio browser - demo app presenting portfolio is coming soon!")
+                MovingSectionTitle(Modifier.fontSize(22.px), breakpoint, ">", "Portfolio Browser - demo app presenting portfolio is coming soon!".localized())
             }
             PortfolioCard(
                 Modifier.color(palette.font),
                 breakpoint,
                 title = "Portfolio Browser",
                 link = "https://github.com/k-skor/portfolio-browser",
-                content = "Demo app presenting a projects portfolio.",
-                icon = "placeholder.jpg",
+                content = "Demo app presenting a projects portfolio.".localized(),
+                icon = "/placeholder.jpg",
                 stack = mapOf("Kotlin" to 55, "Java" to 25, "TypeScript" to 20, "C++" to 10)
             )
         }

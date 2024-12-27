@@ -14,7 +14,10 @@ version = "1.0-SNAPSHOT"
 kobweb {
     app {
         index {
-            description.set("Powered by Kobweb")
+            val configDomainName = "krzysztofskorcz.pl"
+
+            lang = "pl"
+            description.set("Aplikacje mobilne - Krzysztof Skórcz - Tworzenie oprogramowania - Android, iOS")
             head.add {
                 link(rel = "preconnect", href = "https://fonts.googleapis.com")
                 link(rel = "preconnect", href = "https://fonts.gstatic.com") { attributes["crossorigin"] = "" }
@@ -22,6 +25,24 @@ kobweb {
                     href = "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap",
                     rel = "stylesheet"
                 )
+                link(
+                    rel = "alternate",
+                    href = "https://${configDomainName}/pl/"
+                ) {
+                    hrefLang = "pl"
+                }
+                link(
+                    rel = "alternate",
+                    href = "https://${configDomainName}/en/"
+                ) {
+                    hrefLang = "en"
+                }
+                link(
+                    rel = "canonical",
+                    href = "https://${configDomainName}/"
+                ) {
+                    hrefLang = "x-default"
+                }
             }
         }
     }

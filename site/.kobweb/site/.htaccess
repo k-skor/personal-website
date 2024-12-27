@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteCond %{HTTP_HOST} off
+RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI}
+
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www.krzysztofskorcz.pl(.*) [NC]
+RewriteRule ^(.*)$ http://krzysztofskorcz.pl/$1 [R=301,L]
+
+Redirect 301 /pl.html http://www.krzysztofskorcz.pl/pl/

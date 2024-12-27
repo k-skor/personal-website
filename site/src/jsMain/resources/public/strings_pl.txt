@@ -1,0 +1,36 @@
+# Top bar
+"Krzysztof Skórcz - mobile applications"="Krzysztof Skórcz - aplikacje mobilne"
+"contact"="kontakt"
+"Toggle color mode"="Tryb jasny/ciemny"
+"Switch to PL or EN"="Język polski/angielski"
+"download CV"="pobierz CV"
+
+# Hero section
+"Software Engineer ready for new challenges"="Programista gotowy na kolejne wyzwania"
+"Krzysztof Skórcz is a Software Engineer experienced in many different areas of software engineering.His primary but not limited to expertise is "="Krzysztof Skórcz to Programista doświadczony w wielu różnych dziedzinach tworzenia oprogramowania.\nJego główna, ale nie jedyna specjalizacja to "
+"mobile applications"="aplikacje mobilne"
+". He worked with different languages, platforms, cloud providers (mainly Azure) and technologies. Krzysztof's secondary focus area is "=". Pracował z wieloma różnymi językami programowania, platformami, dostawcami chmury (głównie Azure) i technologiami. Drugą spacjalizacją jest "
+"IoT and Edge Computing"="IoT i Edge Computing"
+". He participated in numerous projects in various roles building, designing and presenting cutting-edge software as a senior or leader. Constantly improving his skill set, recently expanding it on Machine Learning."=". Krzysztof uczesniczył w wielu projektach w rozmaitych rolach budując, projektując i prezentując najlepsze oprogramowanie pełniąc role takie jak Team Leader czy Senior Developer. Stale rozwija swoje umiejętności, ostatnio rozszerzając je o uczenie maszynowe."
+"Programming\nLanguages"="Języki\nprogramowania"
+"Years of\nexperience"="Lata\ndoświadczenia"
+"over 10 years of employment"="ponad 10 lat doświadczenia"
+"Location"="Lokalizacja"
+"Poznań, Poland"="Poznań, Polska"
+"open to remote work"="praca zdalna"
+#"ab\\ncd"="cd\nab"
+
+# Portfolio section
+"Portfolio is my advantage"="Portfolio to moja mocna strona"
+"Mobile applications I've worked on. The last, 4th application is the Portfolio Browser which is a reference demo app for any professional portfolio. Two birds with one stone!"="Aplikacje mobilne nad którymi pracowałem. Ostatnia, czwarta aplikacja to Portfolio Browser, czyli referencyjny projekt demo apki służącej do prezentacji portfolio dowolnego profesjonalisty. Dwie pieczenie na jednym ogniu!"
+"Global fast food company"="Globalna sieć fast foodów"
+"Android version of a B2C app for a leading global fast food company in the German market. The business goal was to reinforce user interaction and retention through time constrained marketing campaigns and global initiatives to boost sales.\nWorked on a daily basis with the customer and UI team to scope and plan the development. My role as part of a complex environment was to lead the international team of developers essentially being responsible for the app’s technical side.\nApp leveraged specific architecture to deliver frequent updates to keep strict customer deadlines. Introduced new technologies to the legacy code base i.e. modularization, Dependency Injection, Kotlin language, unit tests. All keeping the application highly available and meeting strict quality requirements."="Androidowa wersja apki B2C dla globalnego lidera z branży fast food działającego na rynku niemieckim. Cel biznesowy to wzmacnianie interakcji użytkowników i ich retencję poprzez czasowe kampanie marketingowe i globalne inicjatywy marki w celu wzmocnienia sprzedaży.\nCodzinna praca polegała na współpracy z klientem i zespołem UI żeby ująć zakres i zaplanować development. Moją rolą jako członka skomplikowanego środowiska było prowadzenie międzynarodowego zespołu programistów i bycie właściwie odpowiedzialnym za część techniczną apki.\nApka wykorzystywała specyficzną architekturę w celu dostarczania częstych aktualizacji oraz ścisłego przestrzegania terminów klienta. Krzysztof wprowadził szereg nowych technologii do przestarzałego już kodu, m.in.: modularyzację, wstrzykiwanie zależności, język Kotlin, testy jednostkowe. Wszystko zapewniając użytkownikom wysoką dostępność apki i spełniając ścisłe wymagania jakościowe."
+"Application for controlling the remote device in order to allow installers to correctly install and configure satellite installation. It used BLE connectivity, embedded Android features like camera, position, internationalization. As the result the app can export reports of installation process in standard text formats: PDF, XML, JSON. It is a multi-flavor app to support external OEM sales. As a side features it includes also: OTA updates, transponders DB updates, QAM signal and FFT graph in real time."="Aplikacja do sterowania zdalnym urządzeniem w celu umożliwienia instalatorom prawidłowego zainstalowania i skonfigurowania instalacji satelitarnej. Wykorzystuje łączność BLE, wbudowane funkcje Androida jak aparat, pozycja, internacjonalizacja. Jako rezultat apka może wyeksportować raporty z prcesu instalacji w standardowych formatach: PDF, XML, JSON. Jest to apka "multi-flavor" co wspiera jej sprzedaż dostawcom OEM. Jako funkcje poboczne apka ma zaimplementowane także: aktualizacje OTA urządzenia, aktualizacje bazy transpoderów, wykres sygnału QAM i FFT na czasie rzeczywistym."
+"Demo app presenting a projects portfolio."="Apka demo prezentująca portfolio projektów."
+"Android TV app for remote sharing content to a Smart TV device like TV or stick. Uses WebRTC to video and audio transmission. Aimed for enterprise and education industry."="Apka na Android TV do zdalnego udostępniania treści na urządzenia Smart TV jak telewizor albo TV stick. Wykorzystuje WebRTC do transmisji audio i wideo. Przeznaczona do użytku korporacyjnego i branży edukacyjnej."
+"Portfolio Browser - demo app presenting portfolio is coming soon!"="Portfolio Browser - demo apka do prezentacji portfolio dostępna wkrótce!"
+
+# Contact section
+"Contact me"="Skontaktuj się ze mną"
+"phone number"="numer tel."
+"I'm willing to cooperate in form of freelance work for a single project or job but I'm also open to full-time job offers. Let's stay in touch! (PL or EN)"="Oferuję współpracę jako freelancer na pojedyńczy projekt albo zalecenie, ale jestem też otwarty na pracę w formie etatu. Pozostańmy w kontakcie!"

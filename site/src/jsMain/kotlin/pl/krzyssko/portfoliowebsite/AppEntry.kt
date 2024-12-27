@@ -17,16 +17,31 @@ import kotlinx.browser.localStorage
 import org.jetbrains.compose.web.css.vh
 
 private const val COLOR_MODE_KEY = "portfoliowebsite:colorMode"
+private const val LANGUAGE_KEY = "portfoliowebsite:language"
 
 @InitSilk
 fun initColorMode(ctx: InitSilkContext) {
     ctx.config.initialColorMode = localStorage.getItem(COLOR_MODE_KEY)?.let { ColorMode.valueOf(it) } ?: ColorMode.LIGHT
 }
 
+fun initLanguage() {
+    Locale.initialLanguage = try {
+        localStorage.getItem(LANGUAGE_KEY)?.let { Language.valueOf(it) }
+    } catch (exception: Exception) {
+        null
+    } ?: fromBrowserDefault()
+}
+
 @App
 @Composable
 fun AppEntry(content: @Composable () -> Unit) {
+    initLanguage()
+
     SilkApp {
+        val preferredLang = Locale.current.value
+        LaunchedEffect(preferredLang) {
+            localStorage.setItem(LANGUAGE_KEY, preferredLang.toString())
+        }
         val colorMode = ColorMode.current
         LaunchedEffect(colorMode) {
             localStorage.setItem(COLOR_MODE_KEY, colorMode.name)
