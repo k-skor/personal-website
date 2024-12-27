@@ -25,7 +25,11 @@ fun initColorMode(ctx: InitSilkContext) {
 }
 
 fun initLanguage() {
-    Locale.initialLanguage = localStorage.getItem(LANGUAGE_KEY)?.let { Language.valueOf(it) } ?: fromBrowserDefault()
+    Locale.initialLanguage = try {
+        localStorage.getItem(LANGUAGE_KEY)?.let { Language.valueOf(it) }
+    } catch (exception: Exception) {
+        null
+    } ?: fromBrowserDefault()
 }
 
 @App

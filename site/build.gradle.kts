@@ -16,6 +16,7 @@ kobweb {
         index {
             val configDomainName = "krzysztofskorcz.pl"
 
+            lang = "pl"
             description.set("Aplikacje mobilne - Krzysztof Skórcz - Tworzenie oprogramowania - Android, iOS")
             head.add {
                 link(rel = "preconnect", href = "https://fonts.googleapis.com")
@@ -37,7 +38,7 @@ kobweb {
                     hrefLang = "en"
                 }
                 link(
-                    rel = "alternate",
+                    rel = "canonical",
                     href = "https://${configDomainName}/"
                 ) {
                     hrefLang = "x-default"
